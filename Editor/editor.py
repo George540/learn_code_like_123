@@ -25,12 +25,6 @@ class TextEditor:
     self.titlebar.pack(side=TOP,fill=BOTH)
     # Calling Settitle Function
     self.settitle()
-    # Creating Statusbar
-    self.statusbar = Label(self.root,textvariable=self.status,font=("times new roman",15,"bold"),bd=2,relief=GROOVE)
-    # Packing status bar to root window
-    self.statusbar.pack(side=BOTTOM,fill=BOTH)
-    # Initializing Status
-    self.status.set("Welcome To Text Editor")
     # Creating Menubar
     self.menubar = Menu(self.root,font=("times new roman",15,"bold"),activebackground="skyblue")
     # Configuring menubar on root window
@@ -67,8 +61,6 @@ class TextEditor:
     self.menubar.add_cascade(label="Edit", menu=self.editmenu)
     # Creating Help Menu
     self.helpmenu = Menu(self.menubar,font=("times new roman",12,"bold"),activebackground="skyblue",tearoff=0)
-    # Adding About Command
-    self.helpmenu.add_command(label="About",command=self.infoabout)
     # Adding Dictionary Command
     self.helpmenu.add_command(label="Dictionary",command=self.infodictionary)
     # Adding Tips command
@@ -229,10 +221,6 @@ class TextEditor:
     except Exception as e:
       messagebox.showerror("Exception",e)
 
-  # Defining About Funtion
-  def infoabout(self):
-    messagebox.showinfo("About Text Editor","A Simple Text Editor\nCreated using Python.")
-
   # Defining Dictionary Function
   def infodictionary(self):
     messagebox.showinfo("Reserved Keywords","add...to...\nsubstract...from...\nmultiple...by... \n"+
@@ -261,9 +249,20 @@ class TextEditor:
     # Binding Ctrl+u to undo funtion
     self.txtarea.bind("<Control-u>",self.undo)
 
+def read_txt():
+      textFile = open('Editor/textArea.txt', 'w')
+      textFile.write(textEditor.txtarea.get(1.0, END))
+      
 # Creating TK Container
 root = Tk()
 # Passing Root to TextEditor Class
-TextEditor(root)
+textEditor = TextEditor(root)
+
+# Creat Run button
+photo = PhotoImage(file = r"Images/run_button.png")
+runButton = Button(textEditor.root, text="Run", image = photo,command=read_txt)
+
+runButton.pack(pady=20)
+
 # Root Window Looping
 root.mainloop()
