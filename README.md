@@ -24,7 +24,7 @@ python --version
                 Python 3.10.0
 ```
 
-- Check whether Tkinter is install properly on the system
+- Check whether Tkinter is installed properly on the system
 
 ```shell
 python -m tkinter
