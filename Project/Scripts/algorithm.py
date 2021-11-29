@@ -1,8 +1,9 @@
 import calculate
-# import loop
+import loop
 # import conditional
 
 calculate = calculate.Calculate()
+loop= loop.Loop()
 # loop = loop.Loop()
 # conditional = conditional.Conditional()
 
@@ -92,7 +93,20 @@ class Algorithm:
             #     # loop.increment( # pass through calculate function call  )
             # else:    
             #     self.result = calculate.add(self.values[0], self.values[1])
-            self.result = calculate.add(self.values[0], self.values[1])
+
+            if self.curr_words[-1].lower() == 'times':
+                #Setting times value and start value in Loop Class
+                loop.setEnd(self.curr_words[-2])
+                loop.setcounter()
+                self.result=self.values[1]
+                
+                #Checking loop condition
+                while loop.checkcondition():
+                    total=self.result
+                    self.result = calculate.add(total,self.values[0]) 
+            else:
+                self.result = calculate.add(self.values[0], self.values[1])
+
         elif self.curr_words[0].lower() == 'subtract':
             # if self.curr_words[-1].lower() == 'times':
             #     # make sure our end value is a positive integer
@@ -100,7 +114,19 @@ class Algorithm:
             #     # loop.increment( # pass through calculate function call  )
             # else:    
             #     self.result = calculate.subtract(self.values[0], self.values[1])
-            self.result = calculate.subtract(self.values[0], self.values[1])
+            if self.curr_words[-1].lower() == 'times':
+                #Setting times value and start value in Loop Class
+                loop.setEnd(self.curr_words[-2])
+                loop.setcounter()
+                self.result=self.values[1]
+
+                #Checking loop condition
+                while loop.checkcondition():
+                    total=self.result
+                    self.result = calculate.subtract(total, self.values[0]) 
+            else:
+                self.result = calculate.subtract(self.values[0], self.values[1])
+            
         elif self.curr_words[0].lower() == 'multiply':
             # if self.curr_words[-1].lower() == 'times':
             #     # make sure our end value is a positive integer
@@ -108,7 +134,19 @@ class Algorithm:
             #     # loop.increment( # pass through calculate function call  )
             # else:    
             #     self.result = calculate.multiply(self.values[0], self.values[1])
-            self.result = calculate.divide(self.values[0], self.values[1])
+            if self.curr_words[-1].lower() == 'times':
+                #Setting times value and start value in Loop Class
+                loop.setEnd(self.curr_words[-2])
+                loop.setcounter()
+                self.result=self.values[1]
+
+                #Checking loop condition
+                while loop.checkcondition():
+                    total=self.result
+                    self.result = calculate.multiply(total, self.values[0]) 
+            else:
+                self.result = calculate.multiply(self.values[0], self.values[1])
+
         elif self.curr_words[0].lower() == 'divide':
             # if self.curr_words[-1].lower() == 'times':
             #     # make sure our end value is a positive integer
@@ -116,7 +154,20 @@ class Algorithm:
             #     # loop.increment( # pass through calculate function call  )
             # else:    
             #     self.result = calculate.divide(self.values[0], self.values[1])
-            self.result = calculate.divide(self.values[0], self.values[1])
+
+            if self.curr_words[-1].lower() == 'times':
+                #Setting times value and start value in Loop Class
+                loop.setEnd(self.curr_words[-2])
+                loop.setcounter()
+                self.result=self.values[1]
+
+                #Checking loop condition
+                while loop.checkcondition():
+                    total=self.result
+                    self.result = calculate.divide(total, self.values[0]) 
+            else:
+                self.result = calculate.divide(self.values[0], self.values[1])
+
         # will this be parsed as 2 seperate words?
         elif self.curr_words[0].lower() == 'square root':
             self.result = calculate.squareRoot(self.values[0])
@@ -124,6 +175,8 @@ class Algorithm:
         #     self.result = conditional.isOdd()
         # elif self.curr_words[-1].lower() == 'even':
         #     self.result = conditional.isEven()
+
+
 
 algo = Algorithm(curr_words=['Add', '5', 'to', '10'])
 algo.resetValues()
@@ -150,4 +203,48 @@ algo.isVariable(algo.curr_words[1])
 print("Updated algorithm values: " , algo.getValues())
 algo.findAlgorithm()
 print("Result : ", algo.getResult())
+############################################################################################
 
+#Loop Operation with Addition
+#curr_words = [['add','5','to','10','for','10','times']
+algo = Algorithm(curr_words= ['add','5','to','10','for','10','times'])
+algo.resetValues()
+print("Intial algorithm values: " , algo.getValues())
+algo.isVariable(algo.curr_words[1])
+algo.isVariable(algo.curr_words[3])
+print("Updated algorithm values: " , algo.getValues())
+algo.findAlgorithm()
+print("Result : ", algo.getResult())
+############################################################################################
+#Loop Operation with Subtraction
+#curr_words = ['subtract','5','to','100','for','10','times']
+algo = Algorithm(curr_words= ['subtract','5','to','100','for','10','times'])
+algo.resetValues()
+print("Intial algorithm values: " , algo.getValues())
+algo.isVariable(algo.curr_words[1])
+algo.isVariable(algo.curr_words[3])
+print("Updated algorithm values: " , algo.getValues())
+algo.findAlgorithm()
+print("Result : ", algo.getResult())
+############################################################################################
+#Loop Operation with Multiplication
+#curr_words = ['multiply','5','to','1','for','2','times']
+algo = Algorithm(curr_words= ['multiply','5','to','1','for','3','times'])
+algo.resetValues()
+print("Intial algorithm values: " , algo.getValues())
+algo.isVariable(algo.curr_words[1])
+algo.isVariable(algo.curr_words[3])
+print("Updated algorithm values: " , algo.getValues())
+algo.findAlgorithm()
+print("Result : ", algo.getResult())
+############################################################################################
+#Loop Operation with Division
+#curr_words = ['divide','5','to','50','for','2','times']
+algo = Algorithm(curr_words= ['divide','5','to','50','for','2','times'])
+algo.resetValues()
+print("Intial algorithm values: " , algo.getValues())
+algo.isVariable(algo.curr_words[1])
+algo.isVariable(algo.curr_words[3])
+print("Updated algorithm values: " , algo.getValues())
+algo.findAlgorithm()
+print("Result : ", algo.getResult())
