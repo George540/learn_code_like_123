@@ -1,67 +1,57 @@
 import calculate
 import loop
 import conditional
+import assignment
 
 calculate = calculate.Calculate()
 loop = loop.Loop()
 conditional = conditional.Conditional()
+assignment_class = assignment.Assignment()
 
 # some global declared in driver, we will need to import
-VARIABLES = {'X': 10, 'Y': 5} # JUST AN EXAMPLE
+#VARIABLES = {'X': 10, 'Y': 5} # JUST AN EXAMPLE
 
 class Algorithm:
-    def __init__(self, curr_words=[], vals=[], result=0):
-        self.curr_words = curr_words    # list of strings
-        self.values = vals              # list of values (at most 2)
-        self.result = result
-    
-    def getCurr_words(self):
-        return self.curr_words
+	def __init__(self, curr_words=[], vals=[], result=0):
+		self.curr_words = curr_words    # list of strings
+		self.values = vals              # list of values (at most 2)
+		self.result = result
+	
+	def getCurr_words(self):
+		return self.curr_words
 
-    def setCurr_words(self, word):
-        self.curr_words.append(word)
+	def setCurr_words(self, words):
+		self.curr_words = words
 
-    def getValues(self):
-        return self.values
-    
-    def setValues(self, val):
-        self.values.append(val)
-    
-    def resetValues(self):
-        self.values = []
-        
-    def getResult(self):
-        return self.result
-    
-    def setResult(self, result):
-        self.result = result
+	def getValues(self):
+		return self.values
+	
+	def addValue(self, val):
+		self.values.append(val)
+	
+	def resetValues(self):
+		self.values = []
+		
+	def getResult(self):
+		return self.result
+	
+	def setResult(self, result):
+		self.result = result
 
 
-    def isVariable(self, string):
-        # in the case the string is a digit
-        if string.isdigit() == True:
-            self.convertStringToFloat(string)
-        # in the case the string is not a digit
-        else:
-            check = self.doesVariableExist(string)
-            if check == False:
-                # we must stop execution because we are trying to access a variable that has not been initialized
-                print('VARIABLE NOT DEFINED! PLEASE ENTER A NEW SENTENCE OR DEFINE ' + string)
+	def isNumber(self, string: str):
+		# in the case the string is a digit
+		if string.isdigit():
+			return True
+		# in case string is a float
+		try:
+			float(string)
+			return True
+		except ValueError:
+			return False
 
-    def doesVariableExist(self, word):
-        # in the case the variable exists, return the value
-        if word in VARIABLES:
-            self.getVariableValue(word)
-            return True
-        # in the case the variable DOES NOT exist, we terminate
-        else:
-            return False
-
-    def getVariableValue(self, key):
-        self.setValues(VARIABLES[key]) 
-
-    def convertStringToFloat(self, word):
-        self.setValues(int(word)) 
+	def addStringValueToList(self, string):
+		self.addValue(float(string))
 
 # the cases:
 # 1. string is digit, we convert to float and store value
@@ -74,40 +64,53 @@ class Algorithm:
 # it was only calculate which had a helper function so idk
 
 # also indexing is at risk of getting fucked, depending on interpreter class, right now im thinking
-        # wasn't sure how we are defining loop
-        # iterate? loop? '10' times?
+		# wasn't sure how we are defining loop
+		# iterate? loop? '10' times?
 # curr_words = ['add', '10', 'and', '2']
 # curr_words = ['subtract', '5', 'and', '7']
 # curr_words = ['square 'root', '144']
 # curr_words = ['is 'X', 'odd']
 # curr_words = ['add '5', '10', 'times']
 
-    def findAlgorithm(self):
-        if self.curr_words[0].lower() == 'add':
-            # calculate.setValueX(self.values[0])
-            # calculate.setValueY(self.values[1])
-            self.result = calculate.add(self.values[0], self.values[1])
+	def findAlgorithm(self):
+		# Declare variable X with value 5
+		if self.curr_words[0].lower() == 'declare' and self.curr_words[1].lower() == 'variable':
+			name = self.curr_words[2]
+			if (self.isNumber(self.curr_words[-1])):
+				value = float(self.curr_words[-1])
+			else:
+				value = self.curr_words[-1]
+			assignment_class.addVariable(name, value)
+			print("Variable " + str(name) + " has been declared")
+			self.result = assignment_class.getKeyValuePair(name)
+		elif self.curr_words[0].lower() == 'add':
+			# calculate.setValueX(self.values[0])
+			# calculate.setValueY(self.values[1])
+			self.result = calculate.add(self.values[0], self.values[1])
 
-        elif self.curr_words[0].lower() == 'subtract':
-            self.result = calculate.subtract(self.values[0], self.values[1])
+		elif self.curr_words[0].lower() == 'subtract':
+			self.result = calculate.subtract(self.values[0], self.values[1])
 
-        elif self.curr_words[0].lower() == 'multiply': 
-            self.result = calculate.multiply(self.values[0], self.values[1])
+		elif self.curr_words[0].lower() == 'multiply': 
+			self.result = calculate.multiply(self.values[0], self.values[1])
 
-        elif self.curr_words[0].lower() == 'divide':
-            self.result = calculate.divide(self.values[0], self.values[1])
+		elif self.curr_words[0].lower() == 'divide':
+			self.result = calculate.divide(self.values[0], self.values[1])
 
-        # will this be parsed as 2 seperate words?
-        elif self.curr_words[0].lower() == 'square' & self.curr_words[1].lower() == 'root':
-            self.result = calculate.squareRoot(self.values[0])
-        
-        elif self.curr_words[-1].lower() == 'odd':
-            conditional.setValue(self.values[0])
-            self.result = conditional.isOdd()
-        
-        elif self.curr_words[-1].lower() == 'even':
-            conditional.setValue(self.values[0])
-            self.result = conditional.isEven()
+		# will this be parsed as 2 seperate words?
+		elif self.curr_words[0].lower() == 'square' & self.curr_words[1].lower() == 'root':
+			self.result = calculate.squareRoot(self.values[0])
+		
+		elif self.curr_words[-1].lower() == 'odd':
+			conditional.setValue(self.values[0])
+			self.result = conditional.isOdd()
+		
+		elif self.curr_words[-1].lower() == 'even':
+			conditional.setValue(self.values[0])
+			self.result = conditional.isEven()
+		
+		else:
+			self.result = None
 
 # ###########################################################################################
 # algo = Algorithm(curr_words=['Add', '5', 'to', '10'])

@@ -26,11 +26,14 @@ class Calculate:
     def add(self, val1, val2):
         return val1+val2
     def subtract(self, val1, val2):
-        return val1 - val2
+        return val2 - val1
     def multiply(self, val1, val2):
         return val1*val2
     def divide(self, val1, val2):
-        return val1 / val2
+        result = val1 / val2
+        if ((float(result)).is_integer()):
+            return int(float(result))
+        return result
     def squareRoot(self, val1):
         return math.sqrt(val1)
 
