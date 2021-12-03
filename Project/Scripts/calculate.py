@@ -30,12 +30,18 @@ class Calculate:
     def multiply(self, val1, val2):
         return val1*val2
     def divide(self, val1, val2):
-        result = val1 / val2
-        if ((float(result)).is_integer()):
-            return int(float(result))
-        return result
+        if val2 == 0:
+            print('ERROR: DIVISION BY 0')
+        else:
+            result = val1 / val2
+            if ((float(result)).is_integer()):
+                return int(float(result))
+            return result
     def squareRoot(self, val1):
-        return math.sqrt(val1)
+        if val1 < 0:
+            print('ERROR: CANNOT SQUARE ROOT A NEGATIVE VALUE')
+        else:
+            return math.sqrt(val1)
 
     # @classmethod
     # def findOperation(self,operation,x,y=0):
