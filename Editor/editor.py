@@ -35,8 +35,17 @@ class TextEditor:
         self.sentenceInput = Frame(self.sentences, background="#ced4da")
         self.sentenceArea = Frame(self.sentences, background="#e9ecef")
         self.sentenceRun = Frame(self.sentences, background="#e9ecef")
-        self.sentenceInputBox = Text(self.sentenceInput, font=(
-            "Roboto", 12), height=0, width=0, background="#e9ecef", relief="flat")
+        self.sentenceInputBox = Entry(self.sentenceInput, font=(
+            "Roboto", 12), bg="#e9ecef", relief="flat")
+        self.resultsHeading = Frame(
+            self.results, background="#ced4da", height=40)
+
+        self.resultsHeadingTextVariable = StringVar()
+        self.resultsHeadingText = Label(
+            self.resultsHeading, textvariable=self.resultsHeadingTextVariable, font=(
+                "Roboto", 12, "bold"), anchor="w", background="#ced4da", fg="#7A7A7A")
+        self.resultsHeadingTextVariable.set("Results")
+        self.resultOutputs = Frame(self.results, background="#ced4da")
 
         # Creating Scrollbar for sentence area
         self.sentenceScrollbar = Scrollbar(
@@ -46,13 +55,18 @@ class TextEditor:
 
         self.sentenceScrollbar.config(command=self.sentenceAreaBox.yview)
 
-        # for i in range(0, 100):
-        #     self.sentenceAreaBox.insert(0, i)
+        # Creating Scrollbar for resultOutputs
+        self.resultsScrollbar = Scrollbar(
+            self.resultOutputs, orient=VERTICAL)
+        self.resultsAreaBox = Listbox(
+            self.resultOutputs, yscrollcommand=self.resultsScrollbar.set, background="#ced4da", bd=0, highlightcolor="#e9ecef", selectbackground="#C1BED7", font=("Roboto", 14))
+
+        self.resultsScrollbar.config(command=self.resultsAreaBox.yview)
 
         # Create Run button
         self.runphoto = PhotoImage(file=r"Images/run_button.png")
         self.runButton = Button(
-            self.sentenceRun, image=self.runphoto, command=self.read_txt, background="#ced4da", height=30, width=70, relief="flat", bd=0, activebackground="#ced4da")
+            self.sentenceRun, image=self.runphoto, command=self.append_to_SentenceArea, background="#ced4da", height=30, width=70, relief="flat", bd=0, activebackground="#ced4da")
 
         # --------------------------------------------------------------------------------
 
@@ -65,9 +79,15 @@ class TextEditor:
         self.sentenceArea.grid(row=1, column=0, sticky="nsew")
         self.sentenceRun.grid(row=2, column=0, sticky="nsew")
         self.sentenceInputBox.grid(row=0, column=0, sticky="ew", padx=20)
-        self.sentenceAreaBox.grid(row=0, column=0, sticky="nsew", padx=50)
+        self.sentenceAreaBox.grid(
+            row=0, column=0, sticky="nsew", padx=(50, 0), pady=(20, 0))
         self.sentenceScrollbar.grid(row=0, column=1, sticky="ns")
         self.runButton.grid(row=0, column=0, sticky="w", padx=50)
+        self.resultsHeading.grid(row=0, column=0, sticky="nsew")
+        self.resultsHeadingText.grid(row=0, column=0, sticky="nsew")
+        self.resultOutputs.grid(row=1, column=0, sticky="nsew")
+        self.resultsAreaBox.grid(row=0, column=0, sticky="nsew", padx=(20, 0))
+        self.resultsScrollbar.grid(row=0, column=1, sticky="ns")
 
         # configure layouts (dimensions/sizing)
         self.root.grid_columnconfigure(0, weight=1)
@@ -83,6 +103,10 @@ class TextEditor:
         self.sentences.grid_rowconfigure(1, weight=1)
         self.sentences.grid_rowconfigure(2, weight=0)
 
+        self.results.grid_columnconfigure(0, weight=1)
+        self.results.grid_rowconfigure(0, weight=0)
+        self.results.grid_rowconfigure(1, weight=1)
+
         self.sentenceArea.grid_columnconfigure(0, weight=1)
         self.sentenceArea.grid_columnconfigure(1, weight=0)
         self.sentenceArea.grid_rowconfigure(0, weight=1)
@@ -92,6 +116,13 @@ class TextEditor:
 
         self.sentenceRun.grid_columnconfigure(0, weight=1)
         self.sentenceRun.grid_rowconfigure(0, weight=1, minsize=80)
+
+        self.resultsHeading.grid_columnconfigure(0, weight=1)
+        self.resultsHeading.grid_rowconfigure(0, weight=1, minsize=40)
+
+        self.resultOutputs.grid_columnconfigure(0, weight=1)
+        self.resultOutputs.grid_columnconfigure(1, weight=0)
+        self.resultOutputs.grid_rowconfigure(0, weight=1)
 
         # --------------------------------------------------------------------------------
         # --------------------------------------------------------------------------------
@@ -349,9 +380,13 @@ class TextEditor:
         # Binding Ctrl+u to undo funtion
         self.sentenceInputBox.bind("<Control-u>", self.undo)
 
-    def read_txt(self):
-        textFile = open('Editor/textArea.txt', 'w')
-        textFile.write(self.sentenceInputBox.get(1.0, END))
+    def append_to_SentenceArea(self):
+        if self.sentenceInputBox.get():
+            sentence = " ".join(self.sentenceInputBox.get().split())
+            self.sentenceAreaBox.insert(0, sentence)
+
+        # textFile = open('Editor/textArea.txt', 'w')
+        # textFile.write()
 
 
 # Creating TK Container
