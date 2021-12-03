@@ -22,7 +22,8 @@ class TextEditor:
         self.filename = None
         # Declaring Title variable
         self.title = StringVar()
-
+        # Declaring Status variable
+        self.status = StringVar()
         # --------------------------------------------------------------------------------
         # --------------------------------------------------------------------------------
 
@@ -216,7 +217,7 @@ class TextEditor:
 
     def newfile(self, *args):
         # Clearing the Text Area
-        self.sentenceInputBox.delete("1.0", END)
+        self.sentenceInputBox.delete()
         # Updating filename as None
         self.filename = None
         # Calling settitle funtion
@@ -237,7 +238,7 @@ class TextEditor:
                 # opening file in readmode
                 infile = open(self.filename, "r")
                 # Clearing text area
-                self.sentenceInputBox.delete("1.0", END)
+                self.sentenceInputBox.delete()
                 # Inserting data Line by line into text area
                 for line in infile:
                     self.sentenceInputBox.insert(END, line)
@@ -258,7 +259,7 @@ class TextEditor:
             # checking if filename not none
             if self.filename:
                 # Reading the data from text area
-                data = self.sentenceInputBox.get("1.0", END)
+                data = self.sentenceInputBox.get()
                 # opening File in write mode
                 outfile = open(self.filename, "w")
                 # Writing Data into file
@@ -283,7 +284,7 @@ class TextEditor:
             untitledfile = filedialog.asksaveasfilename(title="Save file As", defaultextension=".txt", initialfile="Untitled.txt", filetypes=(
                 ("All Files", "*.*"), ("Text Files", "*.txt"), ("Python Files", "*.py")))
             # Reading the data from text area
-            data = self.sentenceInputBox.get("1.0", END)
+            data = self.sentenceInputBox.get()
             # opening File in write mode
             outfile = open(untitledfile, "w")
             # Writing Data into file
@@ -326,7 +327,7 @@ class TextEditor:
             # checking if filename not none
             if self.filename:
                 # Clearing Text Area
-                self.sentenceInputBox.delete("1.0", END)
+                self.sentenceInputBox.delete()
                 # opening File in read mode
                 infile = open(self.filename, "r")
                 # Inserting data Line by line into text area
@@ -340,7 +341,7 @@ class TextEditor:
                 self.status.set("Undone Successfully")
             else:
                 # Clearing Text Area
-                self.sentenceInputBox.delete("1.0", END)
+                self.sentenceInputBox.delete()
                 # Updating filename as None
                 self.filename = None
                 # Calling Set title
@@ -387,7 +388,6 @@ class TextEditor:
 
         # textFile = open('Editor/textArea.txt', 'w')
         # textFile.write()
-
 
 # Creating TK Container
 root = Tk()
