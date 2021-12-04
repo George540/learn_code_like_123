@@ -23,6 +23,8 @@ class TextEditor:
         # Declaring Title variable
         self.title = StringVar()
 
+        self.sentenceIndex = 0
+
         # --------------------------------------------------------------------------------
         # --------------------------------------------------------------------------------
 
@@ -55,11 +57,16 @@ class TextEditor:
 
         self.sentenceScrollbar.config(command=self.sentenceAreaBox.yview)
 
+        self.sentenceAreaBox.bind("<<ListboxSelect>>", self.doSelection)
+
         # Creating Scrollbar for resultOutputs
         self.resultsScrollbar = Scrollbar(
             self.resultOutputs, orient=VERTICAL)
         self.resultsAreaBox = Listbox(
             self.resultOutputs, yscrollcommand=self.resultsScrollbar.set, background="#ced4da", bd=0, highlightcolor="#e9ecef", selectbackground="#C1BED7", font=("Roboto", 14))
+
+        # for i in range(0, 10):
+        #     self.resultsAreaBox.insert(0, i)
 
         self.resultsScrollbar.config(command=self.resultsAreaBox.yview)
 
@@ -387,6 +394,14 @@ class TextEditor:
 
         # textFile = open('Editor/textArea.txt', 'w')
         # textFile.write()
+
+    def append_to_ResultsArea(self, output):
+        self.resultsAreaBox.insert(0, output)
+
+    def doSelection(self, event):
+        w = event.widget
+        selected_index = int(w.curselection()[0])
+        self.resultsAreaBox.selection_set(selected_index)
 
 
 # Creating TK Container
