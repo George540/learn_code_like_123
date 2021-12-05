@@ -76,44 +76,95 @@ class Algorithm:
 # curr_words = ['add '5', '10', 'times']
 
 	def findAlgorithm(self):
-		# Declare variable X with value 5
-		if self.curr_words[0].lower() == 'declare' and self.curr_words[1].lower() == 'variable':
-			name = self.curr_words[2]
+		# Declare X to 5
+		if self.curr_words[0].lower() == 'declare' and self.curr_words[2].lower() == 'to':
+			name = self.curr_words[1]
 			if (self.isNumber(self.curr_words[-1])):
 				value = float(self.curr_words[-1])
 			else:
 				value = self.curr_words[-1]
-			assignment_class.addVariable(name, value)
-			print("Variable " + str(name) + " has been declared")
+			assignment_class.setVariable(name, value)
+			print("Variable " + str(name) + " has been declared with value " + str(value))
 			self.result = assignment_class.getKeyValuePair(name)
+
+		# Add 5 and 2 = 5 + 2 = 7
+		# Add 5 to X  = X + 5
+		# Add X and Y = X + Y
+		# Add X to Y = Y + X
 		elif self.curr_words[0].lower() == 'add':
-			# calculate.setValueX(self.values[0])
-			# calculate.setValueY(self.values[1])
+			self.addStringValueToList(self.curr_words[1])
+			self.addStringValueToList(self.curr_words[3])
 			self.result = calculate.add(self.values[0], self.values[1])
+			# Check if the second value is a variable, so it can be updated
+			if (self.curr_words[2] == 'to'):
+				assignment_class.setVariable(self.curr_words[3], self.result)
 
+		# Subtract 5 from 2 = 2 - 5 = -3
+		# Subtract X from 2 = 2 - X
+		# Subtract 3 from X 
 		elif self.curr_words[0].lower() == 'subtract':
+			self.addStringValueToList(self.curr_words[1])
+			self.addStringValueToList(self.curr_words[3])
 			self.result = calculate.subtract(self.values[0], self.values[1])
+			if (self.isNumber(self.curr_words[3]) == False):
+				assignment_class.setVariable(self.curr_words[3], self.result)
 
+		# Multiply 5 and 2 = 10
+		# Multiply X and 3 = X * 3
+		# Multiply X by 3 = X * 3 (update X)
 		elif self.curr_words[0].lower() == 'multiply': 
+			self.addStringValueToList(self.curr_words[1])
+			self.addStringValueToList(self.curr_words[3])
 			self.result = calculate.multiply(self.values[0], self.values[1])
+			if (self.curr_words[2] == 'by'):
+				assignment_class.setVariable(self.curr_words[3], self.result)
 
+		# Divide 6 by 2 = 2
+		# Divide X by Y = X / Y
+		# Divide X by 2 = X / Y
 		elif self.curr_words[0].lower() == 'divide':
+			self.addStringValueToList(self.curr_words[1])
+			self.addStringValueToList(self.curr_words[3])
 			self.result = calculate.divide(self.values[0], self.values[1])
+			if (self.isNumber(self.curr_words[1]) == False):
+				assignment_class.setVariable(self.curr_words[3], self.result)
 
-		# will this be parsed as 2 seperate words?
-		elif self.curr_words[0].lower() == 'square' & self.curr_words[1].lower() == 'root':
-			self.result = calculate.squareRoot(self.values[0])
+		# Square root 4 = 2
+		# Square root X = sqrt(X) and update variable
+		elif self.curr_words[0].lower() == 'square' and self.curr_words[1].lower() == 'root':
+			self.addStringValueToList(self.curr_words[2])
+			try:
+				self.result = calculate.squareRoot(self.values[0])
+				if (self.isNumber(self.curr_words[1]) == False):
+					assignment_class.setVariable(self.curr_words[2], self.result)
+			except TypeError:
+				self.result = "SquareRootError"
 		
+		# If 2 is odd...
+		# If X is odd...
 		elif self.curr_words[-1].lower() == 'odd':
+			self.addStringValueToList(self.curr_words[1])
 			conditional.setValue(self.values[0])
 			self.result = conditional.isOdd()
+			if (self.isNumber(self.curr_words[1]) == False):
+				assignment_class.setVariable(self.curr_words[3], self.result)
 		
+		# If 2 is even...
+		# If X is even...
 		elif self.curr_words[-1].lower() == 'even':
+			self.addStringValueToList(self.curr_words[1])
 			conditional.setValue(self.values[0])
 			self.result = conditional.isEven()
+			if (self.isNumber(self.curr_words[1]) == False):
+				assignment_class.setVariable(self.curr_words[3], self.result)
 		
+		# Anything else that doesn't follow the above conditions is an invalid format
+		# If result is None, it means there is a calculation error
 		else:
-			self.result = None
+			self.result = "FormatError"
+
+	def isVariable(self, name):
+		return assignment_class.getVariable(name)
 
 # ###########################################################################################
 # algo = Algorithm(curr_words=['Add', '5', 'to', '10'])

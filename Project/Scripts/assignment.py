@@ -2,7 +2,7 @@ class Assignment:
     def __init__(self, variables: dict = {}):
         self.variables = variables
 
-    def addVariable(self, name, value):
+    def setVariable(self, name, value):
         self.variables[name] = value
 
     def deleteVariable(self, name):

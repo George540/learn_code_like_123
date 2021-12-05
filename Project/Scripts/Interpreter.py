@@ -1,36 +1,44 @@
 class Interpreter:
-    # Constructor:
-    def __init__(self, cur_sent="", cur_claus=[]):
-        self.current_sentense = cur_sent
-        self.current_clauses = cur_claus
+	# Constructor:
+	def __init__(self, cur_sent="", cur_claus=[]):
+		self.current_sentense = cur_sent
+		self.current_clauses = cur_claus
 
-    # Sentense Accessor
-    # return type: string
-    def getCurrentSentense(self):
-        return self.current_sentense
+	# Sentense Accessor
+	# return type: string
+	def getCurrentSentense(self):
+		return self.current_sentense
 
-    # Sentense Mutator
-    # return type: void
-    def setCurrentSentence(self, s):
-        self.current_sentense = s
+	# Sentense Mutator
+	# return type: void
+	def setCurrentSentence(self, s : str):
+		self.current_sentense = s
 
-    # Current Clauses Accessor
-    # return type: list of strings
-    def getCurrentClauses(self):
-        return self.current_clauses
+	# Current Clauses Accessor
+	# return type: list of strings
+	def getCurrentClauses(self):
+		return self.current_clauses
 
-    # Current Clauses Mutator
-    # return type: void
-    def setCurrentClauses(self, clauses):
-        self.current_clauses = clauses
+	# Current Clauses Mutator
+	# return type: void
+	def setCurrentClauses(self, clauses):
+		self.current_clauses = clauses
 
-    # Splits string sentense with the comma-space delimiter
-    # return type: void
-    def splitSentense(self):
-        clauses =  self.current_sentense.split(", ")
-        self.current_clauses = clauses
-    
-    # Splits string clause with the space delimiter
-    # return type: list of strings
-    def splitClause(self, c):
-        return c.split(" ")
+	# Splits string sentense with the comma-space delimiter
+	# return type: void
+	def splitSentense(self):
+		clauses =  self.current_sentense.split(", ")
+		self.current_clauses = clauses
+	
+	# Splits string clause with the space delimiter
+	# return type: list of strings
+	def splitClause(self, c : str):
+		return c.split(" ")
+
+	def getAmountOfRepeats(self, words : list):
+		if words[-1] == "times" and words[-2].isdigit():
+			times = int(words[-2])
+			del words[-2:]
+			return (words, times)
+		else:
+			return (words, 1)

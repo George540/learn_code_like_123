@@ -10,3 +10,5 @@ root = Tk()
 textEditor = editor.TextEditor(root)
 # Root Window Looping
 textEditor.root.mainloop()
+
+textEditor.root.command
