@@ -8,9 +8,10 @@ from tkinter import filedialog
 
 class TextEditor:
     # Defining Constructor
-    def __init__(self, root):
+    def __init__(self, root, inputSentense=""):
         # Assigning root
         self.root = root
+        self.inputSentense = inputSentense
 
         self.windowWidth = 1200
         self.windowHeight = 800
@@ -390,6 +391,7 @@ class TextEditor:
     def append_to_SentenceArea(self):
         if self.sentenceInputBox.get():
             sentence = " ".join(self.sentenceInputBox.get().split())
+            self.inputSentense = sentence
             self.sentenceAreaBox.insert(0, sentence)
 
         # textFile = open('Editor/textArea.txt', 'w')
@@ -398,17 +400,10 @@ class TextEditor:
     def append_to_ResultsArea(self, output):
         self.resultsAreaBox.insert(0, output)
 
+    def getInputSentense(self):
+        return self.inputSentense
+
     def doSelection(self, event):
         w = event.widget
         selected_index = int(w.curselection()[0])
         self.resultsAreaBox.selection_set(selected_index)
-
-
-# Creating TK Container
-root = Tk()
-
-# Passing Root to TextEditor Class
-textEditor = TextEditor(root)
-
-# Root Window Looping
-textEditor.root.mainloop()
