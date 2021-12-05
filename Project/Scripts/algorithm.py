@@ -127,7 +127,7 @@ class Algorithm:
 			self.addStringValueToList(self.curr_words[3])
 			self.result = calculate.divide(self.values[0], self.values[1])
 			if (self.isNumber(self.curr_words[1]) == False):
-				assignment_class.setVariable(self.curr_words[3], self.result)
+				assignment_class.setVariable(self.curr_words[1], self.result)
 
 		# Square root 4 = 2
 		# Square root X = sqrt(X) and update variable
