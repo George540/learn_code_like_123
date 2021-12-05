@@ -40,18 +40,21 @@ class Algorithm:
 
 
 	def isNumber(self, string: str):
-		# in the case the string is a digit
-		if string.isdigit():
-			return True
 		# in case string is a float
 		try:
+			if string.isdigit():
+				return True
 			float(string)
 			return True
 		except ValueError:
 			return False
 
 	def addStringValueToList(self, string):
-		self.addValue(float(string))
+		if self.isNumber(string):
+			self.addValue(float(string))
+		else:
+			self.addValue(assignment_class.getVariable(string))
+		
 
 # the cases:
 # 1. string is digit, we convert to float and store value

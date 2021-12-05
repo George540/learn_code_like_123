@@ -21,10 +21,8 @@ while True:
 	algorithm_finder.setCurr_words(current_words)
 	algorithm_finder.resetValues()
 
-	if algorithm_finder.isNumber(algorithm_finder.getCurr_words()[1]):
-		algorithm_finder.addStringValueToList(algorithm_finder.getCurr_words()[1])
-	if algorithm_finder.isNumber(algorithm_finder.getCurr_words()[3]):
-		algorithm_finder.addStringValueToList(algorithm_finder.getCurr_words()[3])
+	algorithm_finder.addStringValueToList(algorithm_finder.getCurr_words()[1])
+	algorithm_finder.addStringValueToList(algorithm_finder.getCurr_words()[3])
 	print("Values: ", algorithm_finder.getValues())
 
 	algorithm_finder.findAlgorithm()
