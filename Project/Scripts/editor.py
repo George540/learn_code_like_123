@@ -59,6 +59,8 @@ class TextEditor:
         self.resultsHeading = Frame(
             self.results, background="#ced4da", height=40)
 
+        self.sentenceInputBox.bind('<Return>', self.append_to_SentenceArea)
+
         self.resultsHeadingTextVariable = StringVar()
         self.resultsHeadingText = Label(
             self.resultsHeading, textvariable=self.resultsHeadingTextVariable, font=(
@@ -102,6 +104,7 @@ class TextEditor:
         self.sentenceArea.grid(row=1, column=0, sticky="nsew")
         self.sentenceRun.grid(row=2, column=0, sticky="nsew")
         self.sentenceInputBox.grid(row=0, column=0, sticky="ew", padx=20)
+
         self.sentenceAreaBox.grid(
             row=0, column=0, sticky="nsew", padx=(50, 0))  # pady=(20, 0)
         self.sentenceScrollbar.grid(row=0, column=1, sticky="ns")
@@ -428,7 +431,7 @@ class TextEditor:
             self.sentenceRun, image=self.runphoto, command=self.append_to_SentenceArea, background="#ced4da", height=30, width=70, relief="flat", bd=0, activebackground="#ced4da")
         return self.current_sentence
 
-    def append_to_SentenceArea(self):
+    def append_to_SentenceArea(self, event=""):
         if self.sentenceInputBox.get():
             sentence = " ".join(self.sentenceInputBox.get().split())
             self.sentenceAreaBox.insert(0, "")
