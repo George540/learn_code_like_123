@@ -4,9 +4,15 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import filedialog
+
+import Components.algorithm as algorithm
+import Components.Interpreter as Interpreter
+
+sentence_interpreter = Interpreter.Interpreter()
+algorithm_finder = algorithm.Algorithm()
+
+
 # Defining TextEditor Class
-
-
 class TextEditor:
     # Defining Constructor
     def __init__(self, root):
@@ -25,6 +31,13 @@ class TextEditor:
         # Declaring Title variable
         self.title = StringVar()
 
+        self.Logs = []
+        self.sentenceLogs = []
+        self.resultLogs = []
+        self.listSentences = []
+        self.listResults = []
+        self.listSentencesVar = StringVar(value=self.listSentences)
+        self.listResultsVar = StringVar(value=self.listResults)
         self.sentenceIndex = 0
 
         # --------------------------------------------------------------------------------
@@ -39,8 +52,10 @@ class TextEditor:
         self.sentenceInput = Frame(self.sentences, background="#ced4da")
         self.sentenceArea = Frame(self.sentences, background="#e9ecef")
         self.sentenceRun = Frame(self.sentences, background="#e9ecef")
+        self.sentenceInputBoxLengthVar = StringVar()
+        self.sentenceInputBoxLengthVar.trace('w', self.limitCharacterAmount)
         self.sentenceInputBox = Entry(self.sentenceInput, font=(
-            "Roboto", 12), bg="#e9ecef", relief="flat")
+            "Roboto", 12), bg="#e9ecef", relief="flat", textvariable=self.sentenceInputBoxLengthVar)
         self.resultsHeading = Frame(
             self.results, background="#ced4da", height=40)
 
@@ -55,22 +70,23 @@ class TextEditor:
         self.sentenceScrollbar = Scrollbar(
             self.sentenceArea, orient=VERTICAL)
         self.sentenceAreaBox = Listbox(
-            self.sentenceArea, yscrollcommand=self.sentenceScrollbar.set, background="#e9ecef", bd=0, highlightcolor="#e9ecef", selectbackground="#C1BED7", font=("Roboto", 14))
+            self.sentenceArea, listvariable=self.listSentencesVar, yscrollcommand=self.sentenceScrollbar.set, background="#e9ecef", bd=0, highlightcolor="#e9ecef", selectbackground="#7A7A7A", font=("Roboto", 14), activestyle='none', exportselection=False, selectmode=SINGLE)
 
         self.sentenceScrollbar.config(command=self.sentenceAreaBox.yview)
 
         self.sentenceAreaBox.bind("<<ListboxSelect>>", self.doSelection)
+        # registering the observer
+        self.listSentencesVar.trace_add('write', self.takeSentenceLogs)
 
         # Creating Scrollbar for resultOutputs
         self.resultsScrollbar = Scrollbar(
             self.resultOutputs, orient=VERTICAL)
         self.resultsAreaBox = Listbox(
-            self.resultOutputs, yscrollcommand=self.resultsScrollbar.set, background="#ced4da", bd=0, highlightcolor="#e9ecef", selectbackground="#C1BED7", font=("Roboto", 14))
-
-        # for i in range(0, 10):
-        #     self.resultsAreaBox.insert(0, i)
+            self.resultOutputs, listvariable=self.listResultsVar, yscrollcommand=self.resultsScrollbar.set, background="#ced4da", bd=0, highlightcolor="#e9ecef", selectbackground="#7A7A7A", font=("Roboto", 14), activestyle='none', selectmode=SINGLE)
 
         self.resultsScrollbar.config(command=self.resultsAreaBox.yview)
+
+        self.listResultsVar.trace_add('write', self.takeResultsLogs)
 
         # Create Run button
         self.setButton()
@@ -87,7 +103,7 @@ class TextEditor:
         self.sentenceRun.grid(row=2, column=0, sticky="nsew")
         self.sentenceInputBox.grid(row=0, column=0, sticky="ew", padx=20)
         self.sentenceAreaBox.grid(
-            row=0, column=0, sticky="nsew", padx=(50, 0), pady=(20, 0))
+            row=0, column=0, sticky="nsew", padx=(50, 0))  # pady=(20, 0)
         self.sentenceScrollbar.grid(row=0, column=1, sticky="ns")
         self.runButton.grid(row=0, column=0, sticky="w", padx=50)
         self.resultsHeading.grid(row=0, column=0, sticky="nsew")
@@ -150,18 +166,23 @@ class TextEditor:
         # Creating File Menu
         self.filemenu = Menu(self.menubar, font=(
             "Roboto", 11), activebackground="skyblue", tearoff=0)
-        # Adding New file Command
-        self.filemenu.add_command(
-            label="New", accelerator="Ctrl+N", command=self.newfile)
-        # Adding Open file Command
-        self.filemenu.add_command(
-            label="Open", accelerator="Ctrl+O", command=self.openfile)
-        # Adding Save File Command
-        self.filemenu.add_command(
-            label="Save", accelerator="Ctrl+S", command=self.savefile)
+        # # Adding New file Command
+        # self.filemenu.add_command(
+        #     label="New", accelerator="Ctrl+N", command=self.newfile)
+        # # Adding Open file Command
+        # self.filemenu.add_command(
+        #     label="Open", accelerator="Ctrl+O", command=self.openfile)
+        # # Adding Save File Command
+        # self.filemenu.add_command(
+        #     label="Save", accelerator="Ctrl+S", command=self.savefile)
+        # # Adding Save As file Command
+        # self.filemenu.add_command(
+        #     label="Save logs to file", accelerator="Ctrl+A", command=self.saveasfile)
+
         # Adding Save As file Command
         self.filemenu.add_command(
-            label="Save As", accelerator="Ctrl+A", command=self.saveasfile)
+            label="Save Logs to File", accelerator="Ctrl+S", command=self.saveasfile)
+
         # Adding Seprator
         self.filemenu.add_separator()
         # Adding Exit window Command
@@ -184,10 +205,10 @@ class TextEditor:
         self.editmenu.add_command(
             label="Paste", accelerator="Ctrl+V", command=self.paste)
         # Adding Seprator
-        self.editmenu.add_separator()
+        # self.editmenu.add_separator()
         # Adding Undo text Command
-        self.editmenu.add_command(
-            label="Undo", accelerator="Ctrl+U", command=self.undo)
+        # self.editmenu.add_command(
+        #     label="Undo", accelerator="Ctrl+U", command=self.undo)
         # Cascading editmenu to menubar
         self.menubar.add_cascade(label="Edit", menu=self.editmenu)
 
@@ -217,7 +238,7 @@ class TextEditor:
             self.title.set(self.filename)
         else:
             # Updating Title as Untitled
-            self.title.set("Untitled")
+            self.title.set("")
 
       # Defining New file Function
 
@@ -290,7 +311,15 @@ class TextEditor:
             untitledfile = filedialog.asksaveasfilename(title="Save file As", defaultextension=".txt", initialfile="Untitled.txt", filetypes=(
                 ("All Files", "*.*"), ("Text Files", "*.txt"), ("Python Files", "*.py")))
             # Reading the data from text area
-            data = self.sentenceInputBox.get()
+
+            for i in range(len(self.sentenceLogs)):
+                row = " --> ".join([self.sentenceLogs[i], self.resultLogs[i]])
+                if row.split()[0] != "-->":
+                    self.Logs.append(row)
+
+            data = "Input --> Output \n"
+            data += "\n".join(self.Logs)
+
             # opening File in write mode
             outfile = open(untitledfile, "w")
             # Writing Data into file
@@ -387,6 +416,12 @@ class TextEditor:
         # Binding Ctrl+u to undo funtion
         self.sentenceInputBox.bind("<Control-u>", self.undo)
 
+    def limitCharacterAmount(self, *args):
+        limit = 30  # Max amount of characters allowed in input text box
+        characters = self.sentenceInputBoxLengthVar.get()
+        if len(characters) > limit:
+            self.sentenceInputBoxLengthVar.set(characters[:limit])
+
     def setButton(self):
         self.runphoto = PhotoImage(file=r"Images/run_button.png")
         self.runButton = Button(
@@ -394,19 +429,79 @@ class TextEditor:
         return self.current_sentence
 
     def append_to_SentenceArea(self):
-        sentence = "TEST"
         if self.sentenceInputBox.get():
             sentence = " ".join(self.sentenceInputBox.get().split())
+            self.sentenceAreaBox.insert(0, "")
             self.sentenceAreaBox.insert(0, sentence)
-        self.current_sentence = sentence
 
-        textFile = open('Project/Scripts/Editor/textArea.txt', 'w')
-        textFile.write(sentence)
+            sentence_interpreter.setCurrentSentence(sentence)
+            sentence_interpreter.splitSentense()
+
+            for i, c in enumerate(sentence_interpreter.getCurrentClauses()):
+                current_words = sentence_interpreter.splitClause(c)
+                print(current_words)
+                current_words, numberOfRepeats = sentence_interpreter.getAmountOfRepeats(
+                    current_words)
+                print(current_words)
+
+                # Check ifcondition is not followed by a statement, return error
+                # This avoids any unecessary processes afterwards
+                if current_words[0] == "If" and current_words[2] == "is" and i + 1 >= len(sentence_interpreter.getCurrentClauses()):
+                    algorithm_finder.setResult("NoStatementError")
+                    print("Result : ", algorithm_finder.getResult())
+                    break
+
+                while (numberOfRepeats > 0):
+                    algorithm_finder.setCurr_words(current_words)
+                    algorithm_finder.resetValues()
+                    algorithm_finder.findAlgorithm()
+                    print("Values: ", algorithm_finder.getValues())
+                    print("Result: ", algorithm_finder.getResult())
+                    self.append_to_ResultsArea("")
+                    self.append_to_ResultsArea(algorithm_finder.getResult())
+                    numberOfRepeats -= 1
+
+                # if (algorithm_finder.getResult() == False):
+                    # break
+
+                    # isTerminated = str(input("\nQuit program? (y/n) "))
+                    # if (isTerminated == 'y'):
+                    #     print('Program Terminated...\n')
+                    #     break
+
+            # textFile = open('Project/Scripts/Editor/textArea.txt', 'w')
+            # textFile.write(sentence)
 
     def append_to_ResultsArea(self, output):
         self.resultsAreaBox.insert(0, output)
 
     def doSelection(self, event):
         w = event.widget
-        selected_index = int(w.curselection()[0])
-        self.resultsAreaBox.selection_set(selected_index)
+        selected_index = w.curselection()
+        if selected_index:
+            selected_index = int(w.curselection()[0])
+            if selected_index % 2 != 0:
+                w.select_clear(selected_index)
+            else:
+                self.resultsAreaBox.selection_clear(0, END)
+                self.resultsAreaBox.selection_set(selected_index)
+
+    def takeSentenceLogs(self, var, indx, mode):
+        sentence = self.listSentencesVar.get().replace("(", "")
+        sentence = sentence.replace(")", "")
+        sentence = sentence.replace("'", "")
+        sentence = sentence.split(",")[0]
+        self.sentenceLogs.append(sentence)
+
+    def takeResultsLogs(self, var, indx, mode):
+        results = self.listResultsVar.get().replace("(", "")
+        results = results.replace(")", "")
+        results = results.replace("'", "")
+        results = results.split(",")[0]
+        self.resultLogs.append(results)
+
+
+root = Tk()
+# Passing Root to TextEditor Class
+textEditor = TextEditor(root)
+textEditor.root.mainloop()
