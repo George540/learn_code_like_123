@@ -142,21 +142,22 @@ class Algorithm:
 		
 		# If 2 is odd...
 		# If X is odd...
-		elif self.curr_words[-1].lower() == 'odd':
-			self.addStringValueToList(self.curr_words[1])
-			conditional.setValue(self.values[0])
-			self.result = conditional.isOdd()
-			if (self.isNumber(self.curr_words[1]) == False):
-				assignment_class.setVariable(self.curr_words[3], self.result)
-		
 		# If 2 is even...
 		# If X is even...
-		elif self.curr_words[-1].lower() == 'even':
-			self.addStringValueToList(self.curr_words[1])
-			conditional.setValue(self.values[0])
-			self.result = conditional.isEven()
-			if (self.isNumber(self.curr_words[1]) == False):
-				assignment_class.setVariable(self.curr_words[3], self.result)
+		elif self.curr_words[0] == 'If' and self.curr_words[2] == 'is':
+			if self.curr_words[0] == 'If' and self.curr_words[-1].lower() == 'odd':
+				self.addStringValueToList(self.curr_words[1])
+				conditional.setValue(self.values[0])
+				self.result = conditional.isOdd()
+				if (self.isNumber(self.curr_words[1]) == False):
+					assignment_class.setVariable(self.curr_words[3], self.result)
+
+			elif self.curr_words[-1].lower() == 'even':
+				self.addStringValueToList(self.curr_words[1])
+				conditional.setValue(self.values[0])
+				self.result = conditional.isEven()
+				if (self.isNumber(self.curr_words[1]) == False):
+					assignment_class.setVariable(self.curr_words[3], self.result)
 		
 		# Anything else that doesn't follow the above conditions is an invalid format
 		# If result is None, it means there is a calculation error
