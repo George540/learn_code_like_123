@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./Project/Scripts/Editor",
+        "./Project/Scripts/Components"
+    ]
+}

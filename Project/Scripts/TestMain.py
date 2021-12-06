@@ -1,8 +1,5 @@
 import algorithm
-import calculate
-import conditional
 import Interpreter
-import loop
 
 sentence_interpreter = Interpreter.Interpreter()
 algorithm_finder = algorithm.Algorithm()

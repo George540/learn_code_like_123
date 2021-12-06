@@ -1,4 +1,5 @@
 # Importing Required libraries & Modules
+from sys import set_asyncgen_hooks
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -8,14 +9,14 @@ from tkinter import filedialog
 
 class TextEditor:
     # Defining Constructor
-    def __init__(self, root, inputSentense=""):
+    def __init__(self, root):
         # Assigning root
         self.root = root
-        self.inputSentense = inputSentense
 
         self.windowWidth = 1200
         self.windowHeight = 800
         self.root.geometry(str(self.windowWidth)+'x'+str(self.windowHeight))
+        self.current_sentence = ""
 
         # Title of the window
         self.root.title("Learning Coding like 1, 2, 3")
@@ -72,9 +73,7 @@ class TextEditor:
         self.resultsScrollbar.config(command=self.resultsAreaBox.yview)
 
         # Create Run button
-        self.runphoto = PhotoImage(file=r"Images/run_button.png")
-        self.runButton = Button(
-            self.sentenceRun, image=self.runphoto, command=self.append_to_SentenceArea, background="#ced4da", height=30, width=70, relief="flat", bd=0, activebackground="#ced4da")
+        self.setButton()
 
         # --------------------------------------------------------------------------------
 
@@ -388,20 +387,24 @@ class TextEditor:
         # Binding Ctrl+u to undo funtion
         self.sentenceInputBox.bind("<Control-u>", self.undo)
 
+    def setButton(self):
+        self.runphoto = PhotoImage(file=r"Images/run_button.png")
+        self.runButton = Button(
+            self.sentenceRun, image=self.runphoto, command=self.append_to_SentenceArea, background="#ced4da", height=30, width=70, relief="flat", bd=0, activebackground="#ced4da")
+        return self.current_sentence
+
     def append_to_SentenceArea(self):
+        sentence = "TEST"
         if self.sentenceInputBox.get():
             sentence = " ".join(self.sentenceInputBox.get().split())
-            self.inputSentense = sentence
             self.sentenceAreaBox.insert(0, sentence)
+        self.current_sentence = sentence
 
-        # textFile = open('Editor/textArea.txt', 'w')
-        # textFile.write()
+        textFile = open('Project/Scripts/Editor/textArea.txt', 'w')
+        textFile.write(sentence)
 
     def append_to_ResultsArea(self, output):
         self.resultsAreaBox.insert(0, output)
-
-    def getInputSentense(self):
-        return self.inputSentense
 
     def doSelection(self, event):
         w = event.widget

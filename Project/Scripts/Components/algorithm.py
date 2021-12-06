@@ -158,6 +158,13 @@ class Algorithm:
 				self.result = conditional.isEven()
 				if (self.isNumber(self.curr_words[1]) == False):
 					assignment_class.setVariable(self.curr_words[3], self.result)
+
+		# Get X = 5
+		# Get 2 = 2
+		elif len(self.curr_words) == 2 and self.curr_words[0] == 'Get':
+			self.addStringValueToList(self.curr_words[1])
+			self.result = self.values[0]
+			
 		
 		# Anything else that doesn't follow the above conditions is an invalid format
 		# If result is None, it means there is a calculation error
