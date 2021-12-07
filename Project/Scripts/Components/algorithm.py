@@ -132,6 +132,9 @@ class Algorithm:
 						assignment_class.setVariable(name, value)
 						self.result = name + " = " + str(value)
 					elif (not self.isNumber(self.curr_words[3])):
+						if (assignment_class.getVariable(self.curr_words[3]) == None):
+							self.result = "Variable does not exist"
+							return
 						value = float(assignment_class.getVariable(self.curr_words[3]))
 						assignment_class.setVariable(name, value)
 						self.result = name + " = " + str(value)
