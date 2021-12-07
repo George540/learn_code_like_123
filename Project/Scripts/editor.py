@@ -392,8 +392,8 @@ class TextEditor:
 
     # Defining Dictionary Function
     def infodictionary(self):
-        messagebox.showinfo("Reserved Keywords", "add...to...\nsubstract...from...\nmultiple...by... \n" +
-                            "divide...by... \nif... is even/odd then...\n")
+        messagebox.showinfo("Reserved Keywords", "Add...to...\nAdd...and...\nSubstract...from...\nSubstract...and...\nMultiply...and... \n" +
+                            "\nMultiply...by...\nDivide...by...\nIf...is even/odd, (clause2)\nGet X\n...X times\n")
 
     def infotips(self):
         messagebox.showinfo("Tips for Success",
