@@ -1,4 +1,5 @@
 # Importing Required libraries & Modules
+from os import times
 from sys import set_asyncgen_hooks
 from tkinter import *
 from tkinter import ttk
@@ -420,7 +421,7 @@ class TextEditor:
         self.sentenceInputBox.bind("<Control-u>", self.undo)
 
     def limitCharacterAmount(self, *args):
-        limit = 30  # Max amount of characters allowed in input text box
+        limit = 60  # Max amount of characters allowed in input text box
         characters = self.sentenceInputBoxLengthVar.get()
         if len(characters) > limit:
             self.sentenceInputBoxLengthVar.set(characters[:limit])
@@ -453,6 +454,7 @@ class TextEditor:
         sentence_interpreter.setCurrentSentence(sentence)
         sentence_interpreter.splitSentense()
 
+        total_clauses_result = [None] * len(sentence_interpreter.getCurrentClauses())
         for i, c in enumerate(sentence_interpreter.getCurrentClauses()):
             current_words = sentence_interpreter.splitClause(c)
 
@@ -462,17 +464,19 @@ class TextEditor:
                 algorithm_finder.setResult("No statement found after condition")
                 self.append_to_ResultsArea("")
                 self.append_to_ResultsArea(algorithm_finder.getResult())
-                print("Result : ", algorithm_finder.getResult())
                 break
 
             algorithm_finder.setCurr_words(current_words)
             algorithm_finder.resetValues()
             algorithm_finder.findAlgorithm()
-            self.append_to_ResultsArea("")
-            self.append_to_ResultsArea(algorithm_finder.getResult())
 
-            if (algorithm_finder.getResult() == False):
+            if (algorithm_finder.getResult() == "False"):
                 break
+            
+            total_clauses_result[i] = algorithm_finder.getResult()
+
+        self.append_to_ResultsArea("")
+        self.append_to_ResultsArea(', '.join(map(str, total_clauses_result)))
 
 
     def append_to_ResultsArea(self, output):

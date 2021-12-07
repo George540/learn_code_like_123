@@ -13,9 +13,8 @@ assignment_class = assignment.Assignment()
 
 
 class Algorithm:
-	def __init__(self, curr_words: list[str] = [], index : int = 0, vals=[], result=0):
+	def __init__(self, curr_words: list[str] = [], vals=[], result=0):
 		self.curr_words = curr_words    # list of strings
-		self.curr_clause_index = index # current clause's ordered index
 		self.values = vals              # list of values (at most 2)
 		self.result = result
 
@@ -79,9 +78,42 @@ class Algorithm:
 	def findAlgorithm(self):
 
 		times = self.getAmountOfRepeats() # X times will be cut if they exist
-		print(times)
 		self.result = 0
-		listresult = []
+		listresult = [None] * times
+		self.resetValues()
+		print(self.curr_words)
+
+		# If 2 is odd...
+		# If X is odd...
+		# If 2 is even...
+		# If X is even...
+		if self.curr_words[0].lower() == 'if' and self.curr_words[2].lower() == 'is' and len(self.curr_words) == 4:
+			if self.curr_words[-1].lower() == 'odd':
+				self.addStringValueToList(self.curr_words[1])
+				conditional.setValue(self.values[0])
+				self.result = str(conditional.isOdd())
+				if (self.isNumber(self.curr_words[1]) == False):
+					assignment_class.setVariable(self.curr_words[3], self.result)
+
+			elif self.curr_words[-1].lower() == 'even':
+				self.addStringValueToList(self.curr_words[1])
+				conditional.setValue(self.values[0])
+				self.result = str(conditional.isEven())
+				if (self.isNumber(self.curr_words[1]) == False):
+					assignment_class.setVariable(self.curr_words[3], self.result)
+
+		if self.result == "False":
+			self.result = "False condition. Statement skipped"
+			return
+
+		# Get X = 5
+		# Get 2 = 2
+		elif len(self.curr_words) == 2 and self.curr_words[0].lower() == 'get':
+			try:
+				self.addStringValueToList(self.curr_words[1])
+				self.result = self.curr_words[1] + " = " + str(self.values[0])
+			except KeyError:
+				self.result = "Variable cannot be found"
 
 		for i in range(1, times+1):
 			# Declare X to 5
@@ -100,102 +132,109 @@ class Algorithm:
 			# Add X to Y = Y + X
 			# Add 2 and 2 3 times = 2 + (2 + 2 + 2)
 			elif self.curr_words[0].lower() == 'add':
-				self.addStringValueToList(self.curr_words[1])
-				self.addStringValueToList(self.curr_words[3])
-				# Check if the second value is a variable, so it can be updated
-				if (self.curr_words[2].lower() == 'to'):
-					try:
+				try:
+					self.addStringValueToList(self.curr_words[1])
+					self.addStringValueToList(self.curr_words[3])
+					# Check if the second value is a variable, so it can be updated
+					if (self.curr_words[2].lower() == 'to'):
 						if (i == 1):
 							self.result = calculate.add(self.values[0], self.values[1])
+							if (self.isNumber(self.curr_words[3]) == False):
+								assignment_class.setVariable(self.curr_words[3], self.result)
 						else:
 							self.result += self.values[0]
 							assignment_class.setVariable(self.curr_words[3], self.result)
-					except KeyError:
-						self.result = "Value " + self.curr_words[3] + " does not exist"
-				elif (self.curr_words[2].lower() == 'and'):
-					listresult[i-1] = calculate.add(self.values[0], self.values[1])
-					self.result = listresult
+					elif (self.curr_words[2].lower() == 'and'):
+						listresult[i-1] = calculate.add(self.values[0], self.values[1])
+						self.result = listresult
+				except KeyError:
+					self.result = "Value does not exist"
 
 			# Subtract 5 from 2 = 2 - 5 = -3
 			# Subtract X from 2 = 2 - X
 			# Subtract 3 from X
 			# Subtract 1 from 4 3 times = 4 - 1 - 1 - 1 = 1
-			elif self.curr_words[0].lower() == 'subtract':
-				self.addStringValueToList(self.curr_words[1])
-				self.addStringValueToList(self.curr_words[3])
-				self.result = calculate.subtract(self.values[0], self.values[1])
-				if (self.isNumber(self.curr_words[3]) == False):
-					assignment_class.setVariable(self.curr_words[3], self.result)
+			elif self.curr_words[0].lower() == 'subtract' and self.curr_words[2].lower() == 'from' and len(self.curr_words) == 4:
+				try:
+					self.addStringValueToList(self.curr_words[1])
+					self.addStringValueToList(self.curr_words[3])
+					if (self.isNumber(self.curr_words[3]) == False):
+						if (i == 1):
+							self.result = calculate.subtract(self.values[0], self.values[1])
+						else:
+							self.result -= self.values[0]
+							assignment_class.setVariable(self.curr_words[3], self.result)
+					else:
+						listresult[i-1] = calculate.subtract(self.values[0], self.values[1])
+						self.result = listresult
+				except KeyError:
+					self.result = "Value does not exist"
 
 			# Multiply 5 and 2 = 10
 			# Multiply X and 3 = X * 3
 			# Multiply X by 3 = X * 3 (update X)
-			elif self.curr_words[0].lower() == 'multiply':
-				self.addStringValueToList(self.curr_words[1])
-				self.addStringValueToList(self.curr_words[3])
-				self.result = calculate.multiply(self.values[0], self.values[1])
-				if (self.curr_words[2] == 'by'):
-					assignment_class.setVariable(self.curr_words[3], self.result)
-
+			elif self.curr_words[0].lower() == 'multiply' and len(self.curr_words) == 4:
+				try:
+					self.addStringValueToList(self.curr_words[1])
+					self.addStringValueToList(self.curr_words[3])
+					if (self.curr_words[2].lower() == 'by' and self.isNumber(self.curr_words[1]) == False):
+						if (i == 1):
+							self.result = calculate.multiply(self.values[0], self.values[1])
+						else:
+							assignment_class.setVariable(self.curr_words[1], calculate.multiply(self.result, self.values[1]))
+							self.result = assignment_class.getVariable(self.curr_words[1])
+					else:
+						if (i == 1):
+							listresult[i-1] = calculate.multiply(self.values[0], self.values[1])
+							self.result = listresult
+						else:
+							listresult[i-1] = calculate.multiply(self.values[0], self.values[1])
+							self.result = listresult
+				except KeyError:
+					self.result = "Value does not exist"
 			# Divide 6 by 2 = 2
 			# Divide X by Y = X / Y
 			# Divide X by 2 = X / Y
 			# Divide X=16 by 2 3 times = 16 / 2 / 2 / 2 = 1
-			elif self.curr_words[0].lower() == 'divide' and self.curr_words[2].lower() == 'by':
-				self.addStringValueToList(self.curr_words[1])
-				self.addStringValueToList(self.curr_words[3])
-				if (self.isNumber(self.curr_words[1]) == False):
-					assignment_class.setVariable(self.curr_words[1], assignment_class.getVariable(self.curr_words[1]) / self.values[1])
-				else:
-					self.result = calculate.divide(self.values[0], self.values[1])
+			elif self.curr_words[0].lower() == 'divide' and self.curr_words[2].lower() == 'by' and len(self.curr_words) == 4:
+				try:
+					self.addStringValueToList(self.curr_words[1])
+					self.addStringValueToList(self.curr_words[3])
+					if (self.isNumber(self.curr_words[1]) == False):
+						if (i == 1):
+							self.result = calculate.divide(self.values[0], self.values[1])
+						else:
+							self.result /= self.values[1]
+						assignment_class.setVariable(self.curr_words[1], self.result)
+					else:
+						listresult[i-1] = calculate.divide(self.values[0], self.values[1])
+						self.result = listresult
+				except KeyError:
+					self.result = "Value does not exist"
 
 			# Square root 4 = 2
 			# Square root X = sqrt(X) and update variable
-			elif self.curr_words[0].lower() == 'square' and self.curr_words[1].lower() == 'root':
-				self.addStringValueToList(self.curr_words[2])
+			elif self.curr_words[0].lower() == 'square' and self.curr_words[1].lower() == 'root' and len(self.curr_words) == 3:
 				try:
-					self.result = calculate.squareRoot(self.values[0])
+					self.addStringValueToList(self.curr_words[2])
+					if (i == 1):
+						self.result = calculate.squareRoot(self.values[0])
+					else:
+						self.result = calculate.squareRoot(self.result)
+
 					if (self.isNumber(self.curr_words[1]) == False):
-						assignment_class.setVariable(
-							self.curr_words[2], self.result)
+						assignment_class.setVariable(self.curr_words[2], self.result)
 				except TypeError:
 					self.result = "Cannot square root. Either negative number or wrong variable type"
-
-			# If 2 is odd...
-			# If X is odd...
-			# If 2 is even...
-			# If X is even...
-			elif self.curr_words[0] == 'If' and self.curr_words[2] == 'is':
-				if self.curr_words[0] == 'If' and self.curr_words[-1].lower() == 'odd':
-					self.addStringValueToList(self.curr_words[1])
-					conditional.setValue(self.values[0])
-					self.result = conditional.isOdd()
-					if (self.isNumber(self.curr_words[1]) == False):
-						assignment_class.setVariable(
-							self.curr_words[3], self.result)
-
-				elif self.curr_words[-1].lower() == 'even':
-					self.addStringValueToList(self.curr_words[1])
-					conditional.setValue(self.values[0])
-					self.result = conditional.isEven()
-					if (self.isNumber(self.curr_words[1]) == False):
-						assignment_class.setVariable(
-							self.curr_words[3], self.result)
-
-			# Get X = 5
-			# Get 2 = 2
-			elif len(self.curr_words) == 2 and self.curr_words[0] == 'Get':
-				try:
-					self.addStringValueToList(self.curr_words[1])
-					self.result = self.curr_words[1] + " = " + str(self.values[0])
 				except KeyError:
-					self.result = "Variable cannot be found"
+					self.result = "Value does not exist"
 
 			# Anything else that doesn't follow the above conditions is an invalid format
 			# If result is None, it means there is a calculation error
 			else:
 				self.result = "Format Error: Try a new sentence"
 
+			self.result = str(self.result)
 			times += 1
 
 	def isVariable(self, name):
