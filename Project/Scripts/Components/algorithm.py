@@ -126,10 +126,15 @@ class Algorithm:
 			# Let X be 5
 			if self.curr_words[0].lower() == 'let' and self.curr_words[2].lower() == 'be' and len(self.curr_words) == 4:
 				name = self.curr_words[1]
-				if (self.isNumber(self.curr_words[-1])):
-					value = float(self.curr_words[-1])
-					assignment_class.setVariable(name, value)
-					self.result = name + " = " + str(value)
+				if (not self.isNumber(self.curr_words[1])):
+					if (self.isNumber(self.curr_words[3])):
+						value = float(self.curr_words[3])
+						assignment_class.setVariable(name, value)
+						self.result = name + " = " + str(value)
+					elif (not self.isNumber(self.curr_words[3])):
+						value = float(assignment_class.getVariable(self.curr_words[3]))
+						assignment_class.setVariable(name, value)
+						self.result = name + " = " + str(value)
 				else:
 					self.result = "Declaration Error: input value was not a number"
 
