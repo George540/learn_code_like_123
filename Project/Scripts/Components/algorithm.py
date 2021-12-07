@@ -76,33 +76,34 @@ class Algorithm:
 # curr_words = ['add '5', '10', 'times']
 
 	def findAlgorithm(self):
-
 		times = self.getAmountOfRepeats() # X times will be cut if they exist
 		self.result = 0
-		listresult = [None] * times
-		self.resetValues()
+		listresult = []
 		print(self.curr_words)
 
 		# If 2 is odd...
 		# If X is odd...
 		# If 2 is even...
 		# If X is even...
+		temp = True
 		if self.curr_words[0].lower() == 'if' and self.curr_words[2].lower() == 'is' and len(self.curr_words) == 4:
 			if self.curr_words[-1].lower() == 'odd':
 				self.addStringValueToList(self.curr_words[1])
 				conditional.setValue(self.values[0])
-				self.result = str(conditional.isOdd())
-				if (self.isNumber(self.curr_words[1]) == False):
-					assignment_class.setVariable(self.curr_words[3], self.result)
+				temp = conditional.isOdd()
+				if (temp == True):
+					self.result = temp
+					return
 
 			elif self.curr_words[-1].lower() == 'even':
 				self.addStringValueToList(self.curr_words[1])
 				conditional.setValue(self.values[0])
-				self.result = str(conditional.isEven())
-				if (self.isNumber(self.curr_words[1]) == False):
-					assignment_class.setVariable(self.curr_words[3], self.result)
+				temp = conditional.isEven()
+				if (temp == True):
+					self.result = temp
+					return
 
-		if self.result == "False":
+		if temp == False:
 			self.result = "False condition. Statement skipped"
 			return
 
@@ -145,7 +146,7 @@ class Algorithm:
 							self.result += self.values[0]
 							assignment_class.setVariable(self.curr_words[3], self.result)
 					elif (self.curr_words[2].lower() == 'and'):
-						listresult[i-1] = calculate.add(self.values[0], self.values[1])
+						listresult.append(calculate.add(self.values[0], self.values[1]))
 						self.result = listresult
 				except KeyError:
 					self.result = "Value does not exist"
@@ -233,8 +234,11 @@ class Algorithm:
 			# If result is None, it means there is a calculation error
 			else:
 				self.result = "Format Error: Try a new sentence"
-
-			self.result = str(self.result)
+			
+			if (self.result is list):
+				self.result = ', '.join(map(str, self.result))
+			else:
+				self.result = str(self.result)
 			times += 1
 
 	def isVariable(self, name):
