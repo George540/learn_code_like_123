@@ -108,9 +108,17 @@ class Algorithm:
 		elif len(self.curr_words) == 2 and self.curr_words[0].lower() == 'get':
 			try:
 				self.addStringValueToList(self.curr_words[1])
-				self.result = self.curr_words[1] + " = " + str(self.values[0])
+
+				if (self.values[0] == None):
+					raise KeyError("Variable cannot be found")
+				if (self.isNumber(self.curr_words[1]) == False):
+					self.result = self.curr_words[1] + " = " + str(self.values[0])
+				else:
+					self.result = str(self.values[0])
+				return
 			except KeyError:
 				self.result = "Variable cannot be found"
+				return
 
 		if temp == False:
 			self.result = "False condition. Statement skipped"
@@ -166,7 +174,7 @@ class Algorithm:
 							self.result -= self.values[0]
 							assignment_class.setVariable(self.curr_words[3], self.result)
 					else:
-						listresult[i-1] = calculate.subtract(self.values[0], self.values[1])
+						listresult.append(calculate.subtract(self.values[0], self.values[1]))
 						self.result = listresult
 				except KeyError:
 					self.result = "Value does not exist"
@@ -186,10 +194,10 @@ class Algorithm:
 							self.result = assignment_class.getVariable(self.curr_words[1])
 					else:
 						if (i == 1):
-							listresult[i-1] = calculate.multiply(self.values[0], self.values[1])
+							listresult.append(calculate.multiply(self.values[0], self.values[1]))
 							self.result = listresult
 						else:
-							listresult[i-1] = calculate.multiply(self.values[0], self.values[1])
+							listresult.append(calculate.multiply(self.values[0], self.values[1]))
 							self.result = listresult
 				except KeyError:
 					self.result = "Value does not exist"
@@ -208,7 +216,7 @@ class Algorithm:
 							self.result /= self.values[1]
 						assignment_class.setVariable(self.curr_words[1], self.result)
 					else:
-						listresult[i-1] = calculate.divide(self.values[0], self.values[1])
+						listresult.append(calculate.divide(self.values[0], self.values[1]))
 						self.result = listresult
 				except KeyError:
 					self.result = "Value does not exist"
@@ -234,12 +242,12 @@ class Algorithm:
 			# If result is None, it means there is a calculation error
 			else:
 				self.result = "Format Error: Try a new sentence"
-			
-			if (self.result is list):
-				self.result = ', '.join(map(str, self.result))
-			else:
-				self.result = str(self.result)
-			times += 1
+
+		print(self.result)
+		if type(self.result) is list:
+			self.result = ', '.join(map(str, self.result))
+		else:
+			self.result = str(self.result)
 
 	def isVariable(self, name):
 		return assignment_class.getVariable(name)
