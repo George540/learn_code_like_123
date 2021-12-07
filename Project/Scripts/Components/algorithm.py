@@ -140,7 +140,7 @@ class Algorithm:
 			# Add X and Y = X + Y
 			# Add X to Y = Y + X
 			# Add 2 and 2 3 times = 2 + (2 + 2 + 2)
-			elif self.curr_words[0].lower() == 'add':
+			elif self.curr_words[0].lower() == 'add' and len(self.curr_words) == 4 and (self.curr_words[2].lower() == 'and' or self.curr_words[2].lower() == 'to'):
 				try:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
@@ -182,7 +182,7 @@ class Algorithm:
 			# Multiply 5 and 2 = 10
 			# Multiply X and 3 = X * 3
 			# Multiply X by 3 = X * 3 (update X)
-			elif self.curr_words[0].lower() == 'multiply' and len(self.curr_words) == 4:
+			elif self.curr_words[0].lower() == 'multiply' and len(self.curr_words) == 4 and (self.curr_words[2].lower() == 'and' or self.curr_words[2].lower() == 'by'):
 				try:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
