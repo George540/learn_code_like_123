@@ -334,7 +334,7 @@ class TextEditor:
             # Calling Set title
             self.settitle()
             # Updating Status
-            self.status.set("Saved Successfully")
+            # self.status.set("Saved Successfully")
         except Exception as e:
             messagebox.showerror("Exception", e)
 
@@ -405,9 +405,9 @@ class TextEditor:
         # Binding Ctrl+o to openfile funtion
         self.sentenceInputBox.bind("<Control-o>", self.openfile)
         # Binding Ctrl+s to savefile funtion
-        self.sentenceInputBox.bind("<Control-s>", self.savefile)
+        self.sentenceInputBox.bind("<Control-s>", self.saveasfile)
         # Binding Ctrl+a to saveasfile funtion
-        self.sentenceInputBox.bind("<Control-a>", self.saveasfile)
+        # self.sentenceInputBox.bind("<Control-a>", self.saveasfile)
         # Binding Ctrl+e to exit funtion
         self.sentenceInputBox.bind("<Control-e>", self.exit)
         # Binding Ctrl+x to cut funtion
