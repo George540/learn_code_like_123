@@ -103,10 +103,6 @@ class Algorithm:
 					self.result = temp
 					return
 
-		if temp == False:
-			self.result = "False condition. Statement skipped"
-			return
-
 		# Get X = 5
 		# Get 2 = 2
 		elif len(self.curr_words) == 2 and self.curr_words[0].lower() == 'get':
@@ -115,6 +111,10 @@ class Algorithm:
 				self.result = self.curr_words[1] + " = " + str(self.values[0])
 			except KeyError:
 				self.result = "Variable cannot be found"
+
+		if temp == False:
+			self.result = "False condition. Statement skipped"
+			return
 
 		for i in range(1, times+1):
 			# Declare X to 5
