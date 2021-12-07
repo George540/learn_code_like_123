@@ -144,6 +144,8 @@ class Algorithm:
 				try:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
+					if (self.values[0] == None or self.values[1] == None):
+						raise KeyError("Variable cannot be found")
 					# Check if the second value is a variable, so it can be updated
 					if (self.curr_words[2].lower() == 'to'):
 						if (i == 1):
@@ -167,12 +169,14 @@ class Algorithm:
 				try:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
+					if (self.values[0] == None or self.values[1] == None):
+							raise KeyError("Variable cannot be found")
 					if (self.isNumber(self.curr_words[3]) == False):
 						if (i == 1):
 							self.result = calculate.subtract(self.values[0], self.values[1])
 						else:
 							self.result -= self.values[0]
-							assignment_class.setVariable(self.curr_words[3], self.result)
+						assignment_class.setVariable(self.curr_words[3], self.result)
 					else:
 						listresult.append(calculate.subtract(self.values[0], self.values[1]))
 						self.result = listresult
@@ -186,6 +190,8 @@ class Algorithm:
 				try:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
+					if (self.values[0] == None or self.values[1] == None):
+							raise KeyError("Variable cannot be found")
 					if (self.curr_words[2].lower() == 'by' and self.isNumber(self.curr_words[1]) == False):
 						if (i == 1):
 							self.result = calculate.multiply(self.values[0], self.values[1])
@@ -209,6 +215,8 @@ class Algorithm:
 				try:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
+					if (self.values[0] == None or self.values[1] == None):
+							raise KeyError("Variable cannot be found")
 					if (self.isNumber(self.curr_words[1]) == False):
 						if (i == 1):
 							self.result = calculate.divide(self.values[0], self.values[1])
@@ -226,10 +234,15 @@ class Algorithm:
 			elif self.curr_words[0].lower() == 'square' and self.curr_words[1].lower() == 'root' and len(self.curr_words) == 3:
 				try:
 					self.addStringValueToList(self.curr_words[2])
+					if (self.values[0] == None):
+						raise KeyError("Variable cannot be found")
 					if (i == 1):
 						self.result = calculate.squareRoot(self.values[0])
 					else:
 						self.result = calculate.squareRoot(self.result)
+
+					if (self.result == None):
+						raise ArithmeticError("Cannot square root a negative")
 
 					if (self.isNumber(self.curr_words[1]) == False):
 						assignment_class.setVariable(self.curr_words[2], self.result)
@@ -237,6 +250,8 @@ class Algorithm:
 					self.result = "Cannot square root. Either negative number or wrong variable type"
 				except KeyError:
 					self.result = "Value does not exist"
+				except ArithmeticError:
+					self.result = "Cannot square root a negative"
 
 			# Anything else that doesn't follow the above conditions is an invalid format
 			# If result is None, it means there is a calculation error

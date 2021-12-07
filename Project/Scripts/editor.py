@@ -478,7 +478,8 @@ class TextEditor:
 			clausesPassed += 1
 			if (algorithm_finder.getResult() == "False condition. Statement skipped"):
 				break
-			
+    			
+
 		if isBroken == False:
 			self.append_to_ResultsArea("")
 			self.append_to_ResultsArea(', '.join(map(str, total_clauses_result)))
