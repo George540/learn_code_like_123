@@ -40,6 +40,9 @@ Collections of rules and guidelines that determine the programming style, proced
 
 ## Folder Structure
 ```
+📦.vscode
+ ┗ 📜settings.json
+ 
 📦Images
  ┗ 📜run_button.png
  
