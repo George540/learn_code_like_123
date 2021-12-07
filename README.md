@@ -34,6 +34,7 @@ python -m tkinter
                 (a window demonstrating a simple Tk interface will be opened)
 ```
 ## Screenshots
+![screenshot1](Screenshots/screenshot.png)
 
 ## Coding Standards
 Collections of rules and guidelines that determine the programming style, procedures, and methods for a programming language can be found in ```StyleGuide.py```
