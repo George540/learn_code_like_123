@@ -4,9 +4,12 @@ In this project, we are going to design and implement an algorithm developer sof
 
 
 
-## Table of Contents (to be added when done)
+## Table of Contents
 - [Requirements](#requirements)
 - [Check Installation](#check-installation)
+- [Screenshots](#screenshots)
+- [Coding Standards](#coding-standards)
+- [Folder Structure](#folder-structure)
 - [Team Members](#team-members)
 
 ## Requirements
@@ -30,6 +33,12 @@ python --version
 python -m tkinter
                 (a window demonstrating a simple Tk interface will be opened)
 ```
+## Screenshots
+
+## Coding Standards
+Collections of rules and guidelines that determine the programming style, procedures, and methods for a programming language can be found in ```StyleGuide.py```
+
+## Folder Structure
 
 ## Team Members:
 - Annika Timermanis
