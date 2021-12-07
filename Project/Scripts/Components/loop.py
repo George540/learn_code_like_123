@@ -20,7 +20,10 @@ class Loop:
         return self.end
     
     def setEnd(self, num):
-        if num <= 1 :
+        if num < 1 :
             print('Invalid loop times!')
         else:
             self.end=num
+
+    def resetCounter(self):
+        self.count = 1

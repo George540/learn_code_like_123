@@ -436,36 +436,7 @@ class TextEditor:
             sentence = " ".join(self.sentenceInputBox.get().split())
             self.sentenceAreaBox.insert(0, "")
             self.sentenceAreaBox.insert(0, sentence)
-
-            sentence_interpreter.setCurrentSentence(sentence)
-            sentence_interpreter.splitSentense()
-
-            for i, c in enumerate(sentence_interpreter.getCurrentClauses()):
-                current_words = sentence_interpreter.splitClause(c)
-                print(current_words)
-                current_words, numberOfRepeats = sentence_interpreter.getAmountOfRepeats(
-                    current_words)
-                print(current_words)
-
-                # Check ifcondition is not followed by a statement, return error
-                # This avoids any unecessary processes afterwards
-                if current_words[0] == "If" and current_words[2] == "is" and i + 1 >= len(sentence_interpreter.getCurrentClauses()):
-                    algorithm_finder.setResult("NoStatementError")
-                    print("Result : ", algorithm_finder.getResult())
-                    break
-
-                while (numberOfRepeats > 0):
-                    algorithm_finder.setCurr_words(current_words)
-                    algorithm_finder.resetValues()
-                    algorithm_finder.findAlgorithm()
-                    print("Values: ", algorithm_finder.getValues())
-                    print("Result: ", algorithm_finder.getResult())
-                    self.append_to_ResultsArea("")
-                    self.append_to_ResultsArea(algorithm_finder.getResult())
-                    numberOfRepeats -= 1
-
-                # if (algorithm_finder.getResult() == False):
-                    # break
+            self.process_Algorithm(sentence)
 
                     # isTerminated = str(input("\nQuit program? (y/n) "))
                     # if (isTerminated == 'y'):
@@ -474,6 +445,32 @@ class TextEditor:
 
             # textFile = open('Project/Scripts/Editor/textArea.txt', 'w')
             # textFile.write(sentence)
+    
+    def process_Algorithm(self, sentence):
+        sentence_interpreter.setCurrentSentence(sentence)
+        sentence_interpreter.splitSentense()
+
+        for i, c in enumerate(sentence_interpreter.getCurrentClauses()):
+            current_words = sentence_interpreter.splitClause(c)
+
+             # Check if condition is not followed by a statement, return error
+             # This avoids any unecessary processes afterwards
+            if current_words[0] == "If" and current_words[2] == "is" and i + 1 >= len(sentence_interpreter.getCurrentClauses()):
+                algorithm_finder.setResult("No statement found after condition")
+                self.append_to_ResultsArea("")
+                self.append_to_ResultsArea(algorithm_finder.getResult())
+                print("Result : ", algorithm_finder.getResult())
+                break
+
+            algorithm_finder.setCurr_words(current_words)
+            algorithm_finder.resetValues()
+            algorithm_finder.findAlgorithm()
+            self.append_to_ResultsArea("")
+            self.append_to_ResultsArea(algorithm_finder.getResult())
+
+            if (algorithm_finder.getResult() == False):
+                break
+
 
     def append_to_ResultsArea(self, output):
         self.resultsAreaBox.insert(0, output)
