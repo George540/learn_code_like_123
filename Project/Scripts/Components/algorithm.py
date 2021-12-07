@@ -53,28 +53,16 @@ class Algorithm:
 		else:
 			self.addValue(assignment_class.getVariable(string))
 
-
-# the cases:
-# 1. string is digit, we convert to float and store value
-# 2. string is a variable, and doesn't exist, we terminate execution and prompt for re-entry
-# 3. string is a variable, and does exist, we store value at that key
-# ...
-
-# originally, we wanted to directly call each class, but i dont was to repeat this process twice
-# we are already checking here so, unless each class will handle determining which function to call,
-# it was only calculate which had a helper function so idk
-
-# also indexing is at risk of getting fucked, depending on interpreter class, right now im thinking
-		# wasn't sure how we are defining loop
-		# iterate? loop? '10' times?
-# curr_words = ['add', '10', 'and', '2']
-# curr_words = ['subtract', '5', 'and', '7']
-# curr_words = ['square 'root', '144']
+# Examples of possible input words
+# curr_words = ['ADD', '10', 'and', '2']
+# curr_words = ['Subtract', '5', 'and', '7']
+# curr_words = ['sQuAre 'rOOt', '144']
 # curr_words = ['is 'X', 'odd']
-# curr_words = ['add '5', '10', 'times']
-
+# curr_words = ['Add '5', '10', 'times']
+# words are tested in lower case
 	def findAlgorithm(self):
-		times = self.getAmountOfRepeats() # X times will be cut if they exist
+    	# Find out how many times the statement will be repeated
+		times = self.getAmountOfRepeats() # 'X times' will be cut from the list if they exist
 		self.result = 0
 		listresult = []
 		print(self.curr_words)
@@ -83,7 +71,7 @@ class Algorithm:
 		# If X is odd...
 		# If 2 is even...
 		# If X is even...
-		temp = True
+		temp = True # temporary result for exiting condition when it is correct
 		if self.curr_words[0].lower() == 'if' and self.curr_words[2].lower() == 'is' and len(self.curr_words) == 4:
 			if self.curr_words[-1].lower() == 'odd':
 				self.addStringValueToList(self.curr_words[1])
@@ -126,11 +114,15 @@ class Algorithm:
 			# Let X be 5
 			if self.curr_words[0].lower() == 'let' and self.curr_words[2].lower() == 'be' and len(self.curr_words) == 4:
 				name = self.curr_words[1]
+				
+				# If first value is a variable: X
 				if (not self.isNumber(self.curr_words[1])):
+    				# If second variable is just a number: X + 3
 					if (self.isNumber(self.curr_words[3])):
 						value = float(self.curr_words[3])
 						assignment_class.setVariable(name, value)
 						self.result = name + " = " + str(value)
+					# If second variable is another variable: X + Y
 					elif (not self.isNumber(self.curr_words[3])):
 						if (assignment_class.getVariable(self.curr_words[3]) == None):
 							self.result = "Variable does not exist"
@@ -138,6 +130,7 @@ class Algorithm:
 						value = float(assignment_class.getVariable(self.curr_words[3]))
 						assignment_class.setVariable(name, value)
 						self.result = name + " = " + str(value)
+				# Cannot name a variable as a number
 				else:
 					self.result = "Declaration Error: input value was not a number"
 
@@ -150,9 +143,10 @@ class Algorithm:
 				try:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
+					# If one of the two values is a variable that does not exist, raise error
 					if (self.values[0] == None or self.values[1] == None):
 						raise KeyError("Variable cannot be found")
-					# Check if the second value is a variable, so it can be updated
+					# Add 2 to X: adds 2 to the variable or number
 					if (self.curr_words[2].lower() == 'to'):
 						if (i == 1):
 							self.result = calculate.add(self.values[0], self.values[1])
@@ -161,6 +155,7 @@ class Algorithm:
 						else:
 							self.result += self.values[0]
 							assignment_class.setVariable(self.curr_words[3], self.result)
+					# Add 2 and X: adds 2 and a number/variable without changing anything in memory
 					elif (self.curr_words[2].lower() == 'and'):
 						listresult.append(calculate.add(self.values[0], self.values[1]))
 						self.result = listresult
@@ -175,14 +170,17 @@ class Algorithm:
 				try:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
+					# If one of the two values is a variable that does not exist, raise error
 					if (self.values[0] == None or self.values[1] == None):
 						raise KeyError("Variable cannot be found")
+					# Subtract 3 from X: second value is a variable that will be updated
 					if (self.isNumber(self.curr_words[3]) == False):
 						if (i == 1):
 							self.result = calculate.subtract(self.values[0], self.values[1])
 						else:
 							self.result -= self.values[0]
 						assignment_class.setVariable(self.curr_words[3], self.result)
+					# Subtract 3 from 9
 					else:
 						if (i == 1):
 							self.result = calculate.subtract(self.values[0], self.values[1])
@@ -198,14 +196,17 @@ class Algorithm:
 				try:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
+					# If one of the two values is a variable that does not exist, raise error
 					if (self.values[0] == None or self.values[1] == None):
 							raise KeyError("Variable cannot be found")
+					# Multiply X by 3: variable will be updated
 					if (self.curr_words[2].lower() == 'by' and self.isNumber(self.curr_words[1]) == False):
 						if (i == 1):
 							self.result = calculate.multiply(self.values[0], self.values[1])
 						else:
 							assignment_class.setVariable(self.curr_words[1], calculate.multiply(self.result, self.values[1]))
 							self.result = assignment_class.getVariable(self.curr_words[1])
+					# Multiply X and 3: variable will NOT be updated, just a random calculation that returns a result
 					elif (self.curr_words[2].lower() == 'and'):
 						if (i == 1):
 							self.result = calculate.multiply(self.values[0], self.values[1])
@@ -228,6 +229,7 @@ class Algorithm:
 				try:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
+					# If one of the two values is a variable that does not exist, raise error
 					if (self.values[0] == None or self.values[1] == None):
 						raise KeyError("Variable cannot be found")
 					if (self.values[1] == 0):
@@ -272,8 +274,8 @@ class Algorithm:
 				except ArithmeticError:
 					self.result = "Cannot square root a negative"
 
-			# Anything else that doesn't follow the above conditions is an invalid format
-			# If result is None, it means there is a calculation error
+			# ANYTHING ELSE that doesn't follow the above conditions is an invalid format
+			# Typos and extra unecessary words will return this result as well
 			else:
 				self.result = "Format Error: Try a new sentence"
 

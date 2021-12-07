@@ -440,17 +440,11 @@ class TextEditor:
 			self.clear_entry_text()
 			self.process_Algorithm(sentence)
 
-			# isTerminated = str(input("\nQuit program? (y/n) "))
-			# if (isTerminated == 'y'):
-			#     print('Program Terminated...\n')
-			#     break
-
-			# textFile = open('Project/Scripts/Editor/textArea.txt', 'w')
-			# textFile.write(sentence)
 	def clear_entry_text(self):
 		self.sentenceInputBox.delete(0, END)
 
 	def process_Algorithm(self, sentence):
+    	# splits input sentence into clauses
 		sentence_interpreter.setCurrentSentence(sentence)
 		sentence_interpreter.splitSentense()
 
@@ -458,6 +452,7 @@ class TextEditor:
 		total_clauses_result = []
 		isBroken = False
 		for i, c in enumerate(sentence_interpreter.getCurrentClauses()):
+			# splits clause into a list of words
 			current_words = sentence_interpreter.splitClause(c)
 
 			# Check if condition is not followed by a statement, return error
@@ -470,16 +465,21 @@ class TextEditor:
 				isBroken = True
 				break
 
+			# Match with correct algorithm, if any
 			algorithm_finder.setCurr_words(current_words)
 			algorithm_finder.resetValues()
 			algorithm_finder.findAlgorithm()
 
+			# append clause result into list
 			total_clauses_result.append(algorithm_finder.getResult())
 
+			# if the clause is a condition and is false, skip entire next clause, if any
 			clausesPassed += 1
 			if (algorithm_finder.getResult() == "False condition. Statement skipped" or algorithm_finder.getResult() == "Format Error: Try a new sentence"):
 				break
 
+		# If sentence was not broken due to no statement after condition,
+		# put all results next to each other
 		if isBroken == False:
 			self.append_to_ResultsArea("")
 			self.append_to_ResultsArea(

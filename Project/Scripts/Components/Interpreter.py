@@ -34,11 +34,3 @@ class Interpreter:
 	# return type: list of strings
 	def splitClause(self, c : str):
 		return c.split(" ")
-
-	def getAmountOfRepeats(self, words : list):
-		if words[-1] == "times" and words[-2].isdigit():
-			times = int(words[-2])
-			del words[-2:]
-			return (words, times)
-		else:
-			return (words, 1)
