@@ -477,7 +477,7 @@ class TextEditor:
 			total_clauses_result.append(algorithm_finder.getResult())
 
 			clausesPassed += 1
-			if (algorithm_finder.getResult() == "False condition. Statement skipped"):
+			if (algorithm_finder.getResult() == "False condition. Statement skipped" or algorithm_finder.getResult() == "Format Error: Try a new sentence"):
 				break
 
 		if isBroken == False:
