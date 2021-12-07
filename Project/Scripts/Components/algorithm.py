@@ -187,7 +187,7 @@ class Algorithm:
 						if (i == 1):
 							self.result = calculate.subtract(self.values[0], self.values[1])
 						else:
-							self.result -= self.values[0]
+							self.result = calculate.subtract(self.values[0], self.result)
 				except KeyError:
 					self.result = "Variable does not exist"
 
@@ -208,11 +208,9 @@ class Algorithm:
 							self.result = assignment_class.getVariable(self.curr_words[1])
 					else:
 						if (i == 1):
-							listresult.append(calculate.multiply(self.values[0], self.values[1]))
-							self.result = listresult
+							self.result = calculate.multiply(self.values[0], self.values[1])
 						else:
-							listresult.append(calculate.multiply(self.values[0], self.values[1]))
-							self.result = listresult
+							self.result = calculate.multiply(self.result, self.values[1])
 				except KeyError:
 					self.result = "Variable does not exist"
 			# Divide 6 by 2 = 2
@@ -234,8 +232,10 @@ class Algorithm:
 							self.result /= self.values[1]
 						assignment_class.setVariable(self.curr_words[1], self.result)
 					else:
-						listresult.append(calculate.divide(self.values[0], self.values[1]))
-						self.result = listresult
+						if (i == 1):
+							self.result = calculate.divide(self.values[0], self.values[1])
+						else:
+							self.result = calculate.divide(self.result, self.values[1])
 				except KeyError:
 					self.result = "Variable does not exist"
 				except ZeroDivisionError:
