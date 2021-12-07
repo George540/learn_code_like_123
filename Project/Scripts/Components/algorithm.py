@@ -1,10 +1,8 @@
 import Components.calculate as calculate
-import Components.loop as loop
 import Components.conditional as conditional
 import Components.assignment as assignment
 
 calculate = calculate.Calculate()
-loop = loop.Loop()
 conditional = conditional.Conditional()
 assignment_class = assignment.Assignment()
 
@@ -281,88 +279,3 @@ class Algorithm:
 			return times
 		else:
 			return 1
-
-# ###########################################################################################
-# algo = Algorithm(curr_words=['Add', '5', 'to', '10'])
-# algo.resetValues()
-# print("Intial algorithm values: " , algo.getValues())
-# algo.isVariable(algo.curr_words[1])
-# algo.isVariable(algo.curr_words[3])
-# print("Updated algorithm values: " , algo.getValues())
-# algo.findAlgorithm()
-# print("Result : ", algo.getResult())
-
-# ###########################################################################################
-# algo = Algorithm(curr_words=['Square', 'root', '144'])
-# algo.resetValues()
-# print("Intial algorithm values: " , algo.getValues())
-# algo.isVariable(algo.curr_words[2])
-# print("Updated algorithm values: " , algo.getValues())
-# algo.findAlgorithm()
-# print("Result : ", algo.getResult())
-
-# ###########################################################################################
-# # ASSUMING X = 10
-# algo = Algorithm(curr_words=['Square', 'root', 'X'])
-# algo.resetValues()
-# print("Intial algorithm values: " , algo.getValues())
-# algo.isVariable(algo.curr_words[2])
-# print("Updated algorithm values: " , algo.getValues())
-# algo.findAlgorithm()
-# print("Result : ", algo.getResult())
-
-
-# # ###########################################################################################
-# LOOP
-# ###########################################################################################
-# algo = Algorithm(curr_words=['add','100','by', '5', '2','times'])
-# algo.isVariable(algo.curr_words[1])
-# algo.isVariable(algo.curr_words[3])
-# algo.isVariable(algo.curr_words[4])
-# algo.findAlgorithm()
-# print(['add','100','by', '5', '2','times'])
-# print("Result : ", algo.getResult())
-
-# # algo.resetValues()
-# algo = Algorithm(curr_words=['subtract','100','by', '5', '2','times'])
-# print(algo.getValues())
-# algo.isVariable(algo.curr_words[1])
-# algo.isVariable(algo.curr_words[3])
-# algo.isVariable(algo.curr_words[4])
-# algo.findAlgorithm()
-# print(['subtract','100','by', '5', '2','times'])
-# print("Result : ", algo.getResult())
-
-# algo = Algorithm(curr_words=['multiply','100','by', '5', '2','times'])
-# algo.resetValues()
-# algo.isVariable(algo.curr_words[1])
-# algo.isVariable(algo.curr_words[3])
-# algo.isVariable(algo.curr_words[4])
-# algo.findAlgorithm()
-# print(['multiply','100','by', '5', '2','times'])
-# print("Result : ", algo.getResult())
-
-# algo = Algorithm(curr_words=['divide','100','by', '5', '2','times'])
-# algo.resetValues()
-# algo.isVariable(algo.curr_words[1])
-# algo.isVariable(algo.curr_words[3])
-# algo.isVariable(algo.curr_words[4])
-# algo.findAlgorithm()
-# print(['divide','100','by', '5', '2','times'])
-# print("Result : ", algo.getResult())
-
-# ['Subtract','5', 'from', '100', '10','times']
-# index 1 = val1
-# index 3 = val2
-# index 4 = upper bound for loop
-
-# # ###########################################################################################
-# CONDITIONAL
-# # ###########################################################################################
-# algo = Algorithm(curr_words=['Is','5','even'])
-# algo.resetValues()
-# print("Intial algorithm values: " , algo.getValues())
-# algo.isVariable(algo.curr_words[1])
-# print("Updated algorithm values: " , algo.getValues())
-# algo.findAlgorithm()
-# print("Result : ", algo.getResult())
