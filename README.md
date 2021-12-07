@@ -39,7 +39,32 @@ python -m tkinter
 Collections of rules and guidelines that determine the programming style, procedures, and methods for a programming language can be found in ```StyleGuide.py```
 
 ## Folder Structure
-
+```
+📦Images
+ ┗ 📜run_button.png
+ 
+📦Project
+ ┣ 📂Scripts
+ ┃ ┣ 📂Components
+ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┣ 📜algorithm.cpython-310.pyc
+ ┃ ┃ ┃ ┣ 📜assignment.cpython-310.pyc
+ ┃ ┃ ┃ ┣ 📜calculate.cpython-310.pyc
+ ┃ ┃ ┃ ┣ 📜conditional.cpython-310.pyc
+ ┃ ┃ ┃ ┣ 📜Interpreter.cpython-310.pyc
+ ┃ ┃ ┃ ┗ 📜loop.cpython-310.pyc
+ ┃ ┃ ┣ 📜algorithm.py
+ ┃ ┃ ┣ 📜assignment.py
+ ┃ ┃ ┣ 📜calculate.py
+ ┃ ┃ ┣ 📜conditional.py
+ ┃ ┃ ┗ 📜Interpreter.py
+ ┃ ┣ 📂Editor
+ ┃ ┃ ┗ 📂__pycache__
+ ┃ ┃ ┃ ┗ 📜editor.cpython-310.pyc
+ ┃ ┣ 📜editor.py
+ ┃ ┗ 📜StyleGuide.py
+ ┗ 📜.DS_Store
+ ```
 ## Team Members:
 - Annika Timermanis
 - George Mavroeidis
