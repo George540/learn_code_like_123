@@ -393,8 +393,8 @@ class TextEditor:
 			messagebox.showerror("Exception", e)
 	# Defining Dictionary Function
 	def infodictionary(self):
-		messagebox.showinfo("Reserved Keywords", "Let...be...\nAdd...to...\nAdd...and...\nSubstract...from...\nSubstract...and...\nMultiply...and... \n" +
-							"\nMultiply...by...\nDivide...by...\nIf...is even/odd, (clause2)\nGet X\n...X times\n")
+		messagebox.showinfo("Reserved Keywords", "Let...be...\nAdd...to...\nAdd...and...\nSubstract...from...\n" +
+							"Multiply...and...\nMultiply...by...\nDivide...by...\nIf...is even/odd, (clause2)\nGet X\n...X times\n")
 	def infotips(self):
 		messagebox.showinfo("Tips for Success",
 							"Make sure you use integers for if statements")
