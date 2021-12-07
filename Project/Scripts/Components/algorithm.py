@@ -184,8 +184,10 @@ class Algorithm:
 							self.result -= self.values[0]
 						assignment_class.setVariable(self.curr_words[3], self.result)
 					else:
-						listresult.append(calculate.subtract(self.values[0], self.values[1]))
-						self.result = listresult
+						if (i == 1):
+							self.result = calculate.subtract(self.values[0], self.values[1])
+						else:
+							self.result -= self.values[0]
 				except KeyError:
 					self.result = "Variable does not exist"
 
