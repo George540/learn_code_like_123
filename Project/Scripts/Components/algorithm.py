@@ -206,6 +206,13 @@ class Algorithm:
 						else:
 							assignment_class.setVariable(self.curr_words[1], calculate.multiply(self.result, self.values[1]))
 							self.result = assignment_class.getVariable(self.curr_words[1])
+					elif (self.curr_words[2].lower() == 'and'):
+						if (i == 1):
+							self.result = calculate.multiply(self.values[0], self.values[1])
+							listresult.append(self.result)
+						else:
+							listresult.append(calculate.multiply(self.values[0], self.values[1]))
+							self.result = listresult
 					else:
 						if (i == 1):
 							self.result = calculate.multiply(self.values[0], self.values[1])
