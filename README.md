@@ -7,6 +7,7 @@ In this project, we are going to design and implement an algorithm developer sof
 ## Table of Contents
 - [Requirements](#requirements)
 - [Check Installation](#check-installation)
+- [How to Run the Project](#how-to-run-the-project)
 - [Screenshots](#screenshots)
 - [Coding Standards](#coding-standards)
 - [Folder Structure](#folder-structure)
@@ -33,6 +34,19 @@ python --version
 python -m tkinter
                 (a window demonstrating a simple Tk interface will be opened)
 ```
+
+## How to Run the Project
+
+```shell
+$ python editor.py
+```
+
+📓 Click ```Help``` to see ```Dictionary``` and ```Tips``` to execute the text editor
+
+📓 Hit ```Enter``` in keyboard or click ```Run``` button to see the result of inputted sentences
+
+📓 The results can be saved as file if desired. Click ```File``` -> ```Save Logs as File``` -> name of the file -> ```Save```
+
 ## Screenshots
 ![screenshot1](Screenshots/screenshot.png)
 
