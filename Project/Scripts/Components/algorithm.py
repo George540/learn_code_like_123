@@ -125,8 +125,8 @@ class Algorithm:
 			return
 
 		for i in range(1, times+1):
-			# Declare X to 5
-			if self.curr_words[0].lower() == 'declare' and self.curr_words[2].lower() == 'to' and len(self.curr_words) == 4:
+			# Let X be 5
+			if self.curr_words[0].lower() == 'let' and self.curr_words[2].lower() == 'be' and len(self.curr_words) == 4:
 				name = self.curr_words[1]
 				if (self.isNumber(self.curr_words[-1])):
 					value = float(self.curr_words[-1])
@@ -159,7 +159,7 @@ class Algorithm:
 						listresult.append(calculate.add(self.values[0], self.values[1]))
 						self.result = listresult
 				except KeyError:
-					self.result = "Value does not exist"
+					self.result = "Variable does not exist"
 
 			# Subtract 5 from 2 = 2 - 5 = -3
 			# Subtract X from 2 = 2 - X
@@ -170,7 +170,7 @@ class Algorithm:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
 					if (self.values[0] == None or self.values[1] == None):
-							raise KeyError("Variable cannot be found")
+						raise KeyError("Variable cannot be found")
 					if (self.isNumber(self.curr_words[3]) == False):
 						if (i == 1):
 							self.result = calculate.subtract(self.values[0], self.values[1])
@@ -181,7 +181,7 @@ class Algorithm:
 						listresult.append(calculate.subtract(self.values[0], self.values[1]))
 						self.result = listresult
 				except KeyError:
-					self.result = "Value does not exist"
+					self.result = "Variable does not exist"
 
 			# Multiply 5 and 2 = 10
 			# Multiply X and 3 = X * 3
@@ -206,7 +206,7 @@ class Algorithm:
 							listresult.append(calculate.multiply(self.values[0], self.values[1]))
 							self.result = listresult
 				except KeyError:
-					self.result = "Value does not exist"
+					self.result = "Variable does not exist"
 			# Divide 6 by 2 = 2
 			# Divide X by Y = X / Y
 			# Divide X by 2 = X / Y
@@ -216,7 +216,9 @@ class Algorithm:
 					self.addStringValueToList(self.curr_words[1])
 					self.addStringValueToList(self.curr_words[3])
 					if (self.values[0] == None or self.values[1] == None):
-							raise KeyError("Variable cannot be found")
+						raise KeyError("Variable cannot be found")
+					if (self.values[1] == 0):
+						raise ZeroDivisionError("Cannot divide by 0")
 					if (self.isNumber(self.curr_words[1]) == False):
 						if (i == 1):
 							self.result = calculate.divide(self.values[0], self.values[1])
@@ -227,7 +229,9 @@ class Algorithm:
 						listresult.append(calculate.divide(self.values[0], self.values[1]))
 						self.result = listresult
 				except KeyError:
-					self.result = "Value does not exist"
+					self.result = "Variable does not exist"
+				except ZeroDivisionError:
+					self.result = "Cannot divide by 0"
 
 			# Square root 4 = 2
 			# Square root X = sqrt(X) and update variable
@@ -249,7 +253,7 @@ class Algorithm:
 				except TypeError:
 					self.result = "Cannot square root. Either negative number or wrong variable type"
 				except KeyError:
-					self.result = "Value does not exist"
+					self.result = "Variable does not exist"
 				except ArithmeticError:
 					self.result = "Cannot square root a negative"
 
