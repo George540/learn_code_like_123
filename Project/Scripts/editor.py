@@ -436,6 +436,7 @@ class TextEditor:
             sentence = " ".join(self.sentenceInputBox.get().split())
             self.sentenceAreaBox.insert(0, "")
             self.sentenceAreaBox.insert(0, sentence)
+            self.clear_entry_text()
             self.process_Algorithm(sentence)
 
                     # isTerminated = str(input("\nQuit program? (y/n) "))
@@ -445,7 +446,9 @@ class TextEditor:
 
             # textFile = open('Project/Scripts/Editor/textArea.txt', 'w')
             # textFile.write(sentence)
-    
+    def clear_entry_text(self):
+        self.sentenceInputBox.delete(0, END)
+
     def process_Algorithm(self, sentence):
         sentence_interpreter.setCurrentSentence(sentence)
         sentence_interpreter.splitSentense()
