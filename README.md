@@ -96,5 +96,5 @@ Collections of rules and guidelines that determine the programming style, proced
 - George Mavroeidis: 40065356
 - Phuong Anh Trinh: 40069870
 - Jahrel Stewart: 40115728
-- Axel Solano: 
 - Jordan Chan Kum Sang: 40125997
+- Axel Solano: 40046154
