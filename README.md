@@ -6,6 +6,7 @@ In this project, we are going to design and implement an algorithm developer sof
 
 ## Table of Contents
 - [Requirements](#requirements)
+- [Repository](#repository)
 - [Check Installation](#check-installation)
 - [How to Run the Project](#how-to-run-the-project)
 - [Screenshots](#screenshots)
@@ -18,6 +19,13 @@ In this project, we are going to design and implement an algorithm developer sof
 This project is fully written in **Python 3**. To clone this repo and run the program, we need:
 - **Python** (3.7 or later)
 - **Tkinter Library** (include everything to run Tk out of the box if Python 3.7 or later is installed)
+
+## Repository
+
+- This is the link to the github repository of the project: https://github.com/George540/learn_code_like_123
+- To clone it, here is the HTTPS link: https://github.com/George540/learn_code_like_123.git
+
+Clone main branch for the latest version of the project.
 
 ## Check Installation
 
@@ -84,9 +92,9 @@ Collections of rules and guidelines that determine the programming style, proced
  ┗ 📜.DS_Store
  ```
 ## Team Members:
-- Annika Timermanis
-- George Mavroeidis
-- Jahrel Stewart
-- Axel Solano
-- Phuong Anh Trinh
-- Jordan Chan Kum Sang
+- Annika Timermanis: 40131128
+- George Mavroeidis: 40065356
+- Phuong Anh Trinh: 40069870
+- Jahrel Stewart: 40115728
+- Axel Solano: 
+- Jordan Chan Kum Sang: 40125997
