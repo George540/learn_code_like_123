@@ -63,9 +63,6 @@ Collections of rules and guidelines that determine the programming style, proced
 
 ## Folder Structure
 ```
-📦.vscode
- ┗ 📜settings.json
- 
 📦Images
  ┗ 📜run_button.png
  
@@ -90,6 +87,15 @@ Collections of rules and guidelines that determine the programming style, proced
  ┃ ┣ 📜editor.py
  ┃ ┗ 📜StyleGuide.py
  ┗ 📜.DS_Store
+ 
+ 📦Reports
+ ┣ 📜GroupJ-Assignment1-COMP354.pdf
+ ┣ 📜GroupJ-Assignment2-COMP354.pdf
+ ┣ 📜GroupJ-Assignment3-COMP354.pdf
+ ┗ 📜GroupJ-Assignment4-COMP-354.pdf
+ 
+ 📦Screenshots
+ ┗ 📜screenshot.png
  ```
 ## Team Members:
 - Annika Timermanis: 40131128
