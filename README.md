@@ -56,7 +56,9 @@ $ python editor.py
 📓 The results can be saved as file if desired. Click ```File``` -> ```Save Logs as File``` -> name of the file -> ```Save```
 
 ## Screenshots
-![screenshot1](Screenshots/screenshot.png)
+![screenshot1](Screenshots/screenshot1.png)
+![screenshot2](Screenshots/screenshot2-dictionary.png)
+![screenshot3](Screenshots/screenshot3-tips.png)
 
 ## Coding Standards
 Collections of rules and guidelines that determine the programming style, procedures, and methods for a programming language can be found in ```StyleGuide.py```
@@ -94,8 +96,10 @@ Collections of rules and guidelines that determine the programming style, proced
  ┣ 📜GroupJ-Assignment3-COMP354.pdf
  ┗ 📜GroupJ-Assignment4-COMP-354.pdf
  
- 📦Screenshots
- ┗ 📜screenshot.png
+📦Screenshots
+ ┣ 📜screenshot1.png
+ ┣ 📜screenshot2-dictionary.png
+ ┗ 📜screenshot3-tips.png
  ```
 ## Team Members:
 - Annika Timermanis: 40131128
